@@ -186,13 +186,13 @@ PrefabInstance:
       propertyPath: _skeletonType
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114567484643301796, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
-      propertyPath: _enablePhysicsCapsules
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114925265787909616, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
       propertyPath: _meshType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 137619227449585070, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
@@ -318,6 +318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
+--- !u!1 &500346828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100014, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+  m_PrefabInstance: {fileID: 1051203279}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &589131873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,9 +378,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114567484643301796, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
-      propertyPath: _enablePhysicsCapsules
-      value: 1
+    - target: {fileID: 137619227449585070, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
@@ -649,7 +654,7 @@ MonoBehaviour:
   m_gripTransform: {fileID: 1782612802}
   m_grabVolumes:
   - {fileID: 1782612803}
-  m_controller: 33
+  m_controller: 97
   m_parentTransform: {fileID: 0}
   m_player: {fileID: 1051203285}
 --- !u!54 &1051203284
@@ -692,7 +697,7 @@ MonoBehaviour:
   m_gripTransform: {fileID: 8349418137485533131}
   m_grabVolumes:
   - {fileID: 8349418137485533132}
-  m_controller: 66
+  m_controller: 98
   m_parentTransform: {fileID: 0}
   m_player: {fileID: 1051203285}
 --- !u!54 &1051203288
@@ -720,6 +725,11 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 112276, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
   m_PrefabInstance: {fileID: 482045064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1493494758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100010, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+  m_PrefabInstance: {fileID: 1051203279}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1603550414 stripped
 GameObject:
@@ -754,17 +764,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
-      propertyPath: HandOffset.x
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
-      propertyPath: HandOffset.y
-      value: -0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
-      propertyPath: HandOffset.z
-      value: 0.12
-      objectReference: {fileID: 0}
+      propertyPath: HandEyeAnchor
+      value: 
+      objectReference: {fileID: 1493494758}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: HandReference
       value: 
@@ -776,6 +778,14 @@ PrefabInstance:
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: HandExtraRotation.y
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: HandRotationOffset.x
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: HandRotationOffset.y
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
@@ -956,7 +966,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8349418139061536864, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: m_Name
-      value: PointR
+      value: PointLine
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536865, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: m_RootOrder
@@ -1003,17 +1013,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: HandEyeAnchor
+      value: 
+      objectReference: {fileID: 500346828}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: HandReference
       value: 
       objectReference: {fileID: 740007862}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
-      propertyPath: HandRotation.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: ControllerReference
       value: 
       objectReference: {fileID: 1884251303}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: HandRotationOffset.x
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: HandRotationOffset.y
+      value: -5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
 --- !u!4 &8349418137485533131 stripped
