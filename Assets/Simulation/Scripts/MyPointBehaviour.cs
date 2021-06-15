@@ -57,6 +57,12 @@ public class MyPointBehaviour : MonoBehaviour
     public Color PressedColor = new Color(0, 1, 0, 0.75f);
     public Color UnpressedColor = new Color(1, 1, 1, 0.25f);
 
+    public OVRInput.Button ControllerButtonPinchMask = OVRInput.Button.Any;
+
+    public AudioSource PointAudioSource = null;
+
+    public AudioClip PinchSoundClip = null;
+
     public bool IsCurrentlyPressing
     {
         get
@@ -72,7 +78,11 @@ public class MyPointBehaviour : MonoBehaviour
     void Start()
     {
         OnPressStart.AddListener(PointMaterialChangeOnPress);
+        OnPressStart.AddListener(PointSoundOnPinch);
+
         OnPressEnd.AddListener(PointMaterialChangeOnPress);
+
+        OnPress.AddListener(PointInitiateGrabber);
 
         PointMaterialChangeOnPress();
     }
@@ -171,7 +181,7 @@ public class MyPointBehaviour : MonoBehaviour
                         IndexMiddle = MyBone;
                         break;
                     case OVRSkeleton.BoneId.Hand_Index1:
-                        ThumbStart = MyBone;
+                        IndexStart = MyBone;
                         break;
                 }
             }
@@ -179,7 +189,7 @@ public class MyPointBehaviour : MonoBehaviour
             GameObject CameraCentre = HandEyeAnchor != null? HandEyeAnchor : GameObject.Find("CenterEyeAnchor");
             Vector3 CameraPosition = CameraCentre.transform.position;
 
-            Vector3 MidwayPosition = (ThumbEnd.Transform.position + IndexEnd.Transform.position) / 2;
+            Vector3 MidwayPosition = (ThumbEnd.Transform.position + IndexStart.Transform.position) / 2;
             Vector3 MidwayVector = MidwayPosition - CameraPosition;
 
             ExtraPosition = MidwayPosition;
@@ -211,7 +221,7 @@ public class MyPointBehaviour : MonoBehaviour
 
         bool eventConditions = MyHand.GetFingerIsPinching(OVRHand.HandFinger.Index);
 
-        eventConditions |= OVRInput.Get(OVRInput.Button.PrimaryHandTrigger);
+        eventConditions |= OVRInput.Get(ControllerButtonPinchMask);
 
         if (eventConditions)
         {
@@ -243,5 +253,17 @@ public class MyPointBehaviour : MonoBehaviour
     {
         OVRGrabber OurGrabber = GetComponentInParent<OVRGrabber>();
 
+
+    }
+
+    protected void PointSoundOnPinch(PointRaycastData param)
+    {
+        if(PointAudioSource != null)
+        {
+            if(PinchSoundClip != null)
+            {
+                PointAudioSource.PlayOneShot(PinchSoundClip);
+            }
+        }
     }
 }
