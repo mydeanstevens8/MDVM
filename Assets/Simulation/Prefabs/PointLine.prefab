@@ -184,6 +184,7 @@ MonoBehaviour:
   HandRotation: {x: 0, y: 0, z: 0}
   HandRotationOffset: {x: 0, y: 0, z: 0}
   AutoCalculateHandTransform: 1
+  LongPressTime: 0.3
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -193,10 +194,22 @@ MonoBehaviour:
   OnPressEnd:
     m_PersistentCalls:
       m_Calls: []
+  OnLongPressStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongPressEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongPress:
+    m_PersistentCalls:
+      m_Calls: []
   PressedColor: {r: 0, g: 1, b: 0, a: 0.75}
   UnpressedColor: {r: 1, g: 1, b: 1, a: 0.25}
+  HandButtonPinchMask: 1
+  ControllerButtonPinchMask: -1
   PointAudioSource: {fileID: 449320779663380941}
   PinchSoundClip: {fileID: 8300000, guid: 30d92210f65093f4cb88d175443a9530, type: 3}
+  LongPinchSoundClip: {fileID: 8300000, guid: be58e548634382344af30032ebe52f32, type: 3}
 --- !u!82 &449320779663380941
 AudioSource:
   m_ObjectHideFlags: 0

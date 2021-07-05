@@ -48,22 +48,33 @@ namespace MDVM
 
         public bool AutoCalculateHandTransform = true;
 
+        // Long press time in seconds
+        public float LongPressTime = 0.3f;
+
         bool CurrentlyHandsMode = false;
 
         public PointRaycastEvent OnPress = new PointRaycastEvent();
         public PointRaycastEvent OnPressStart = new PointRaycastEvent();
         public PointRaycastEvent OnPressEnd = new PointRaycastEvent();
 
+        public PointRaycastEvent OnLongPressStart = new PointRaycastEvent();
+        public PointRaycastEvent OnLongPressEnd = new PointRaycastEvent();
+        public PointRaycastEvent OnLongPress = new PointRaycastEvent();
+
         bool IsPressing = false;
+        float PressTimeStart = 0.0f;
+        bool LongPressingSet = false;
 
         public Color PressedColor = new Color(0, 1, 0, 0.75f);
         public Color UnpressedColor = new Color(1, 1, 1, 0.25f);
 
+        public OVRHand.HandFinger HandButtonPinchMask = OVRHand.HandFinger.Index;
         public OVRInput.Button ControllerButtonPinchMask = OVRInput.Button.Any;
 
         public AudioSource PointAudioSource = null;
 
         public AudioClip PinchSoundClip = null;
+        public AudioClip LongPinchSoundClip = null;
 
         public bool IsCurrentlyPressing
         {
@@ -84,7 +95,7 @@ namespace MDVM
 
             OnPressEnd.AddListener(PointMaterialChangeOnPress);
 
-            OnPress.AddListener(PointInitiateGrabber);
+            OnLongPressStart.AddListener(PointSoundOnLongPinch);
 
             PointMaterialChangeOnPress();
         }
@@ -215,25 +226,54 @@ namespace MDVM
             OVRHand MyHand = HandReference != null ? HandReference.GetComponent<OVRHand>() : null;
             PointRaycastData myPointRaycast = new PointRaycastData(CurrentHandPosition, CurrentHandDirection, LeftHand);
 
-            bool eventConditions = MyHand.GetFingerIsPinching(OVRHand.HandFinger.Index);
+            bool eventConditions = MyHand.GetFingerIsPinching(HandButtonPinchMask);
 
             eventConditions |= OVRInput.Get(ControllerButtonPinchMask);
 
+            float CurrentPressTime = Time.time;
+
+            bool LongPressing = IsPressing && (CurrentPressTime - PressTimeStart >= LongPressTime);
+
             if (eventConditions)
             {
+                // Beginning to press and while pressing
                 if (!IsPressing)
                 {
+                    // Beginning to press
                     IsPressing = true;
+                    PressTimeStart = CurrentPressTime;
                     OnPressStart.Invoke(myPointRaycast);
+                }
+                else
+                {
+                    // While pressing
+                    if(LongPressing && !LongPressingSet)
+                    {
+                        OnLongPressStart.Invoke(myPointRaycast);
+                        LongPressingSet = true;
+                    }
                 }
             }
             else
             {
+                // When the pressing ends.
                 if (IsPressing)
                 {
                     IsPressing = false;
+                    LongPressingSet = false;
+                    PressTimeStart = 0.0f;
                     OnPressEnd.Invoke(myPointRaycast);
-                    OnPress.Invoke(myPointRaycast);
+
+                    // Different behaviour if long pressing. (Note that this is passed by value)
+                    if(LongPressing)
+                    {
+                        OnLongPressEnd.Invoke(myPointRaycast);
+                        OnLongPress.Invoke(myPointRaycast);
+                    }
+                    else
+                    {
+                        OnPress.Invoke(myPointRaycast);
+                    }
                 }
             }
         }
@@ -245,12 +285,6 @@ namespace MDVM
             mr.material.color = myColor;
         }
 
-        protected void PointInitiateGrabber(PointRaycastData param)
-        {
-            OVRGrabber OurGrabber = GetComponentInParent<OVRGrabber>();
-
-
-        }
 
         protected void PointSoundOnPinch(PointRaycastData param)
         {
@@ -259,6 +293,17 @@ namespace MDVM
                 if (PinchSoundClip != null)
                 {
                     PointAudioSource.PlayOneShot(PinchSoundClip);
+                }
+            }
+        }
+
+        protected void PointSoundOnLongPinch(PointRaycastData param)
+        {
+            if (PointAudioSource != null)
+            {
+                if (LongPinchSoundClip != null)
+                {
+                    PointAudioSource.PlayOneShot(LongPinchSoundClip);
                 }
             }
         }
