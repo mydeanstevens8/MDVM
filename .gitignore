@@ -70,3 +70,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 © 2021 GitHub, Inc.
+
+# MDVM/IATK specific ignores
+/[Aa]ssets/StreamingAssets/SerializedFields/*
+/[Aa]ssets/StreamingAssets/SerializedFields.meta

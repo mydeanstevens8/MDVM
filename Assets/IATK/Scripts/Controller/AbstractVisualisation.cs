@@ -165,6 +165,10 @@ namespace IATK
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
+
+            // Debug.Log("Status of creation configuration before serialization: " + (creationConfiguration != null));
+            // Debug.Log("Config file name: " + ConfigurationFileName());
+
             creationConfiguration.Serialize(ConfigurationFileName());
         }
 
