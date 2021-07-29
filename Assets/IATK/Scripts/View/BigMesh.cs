@@ -770,7 +770,7 @@ namespace IATK
 
                 saveMesh(this.gameObject, ref countMeshRef, m);
             }
-            PrefabUtility.CreatePrefab("Assets/Prefabs/BigMesh.prefab", this.gameObject);
+            PrefabUtility.SaveAsPrefabAsset(this.gameObject, "Assets/Prefabs/BigMesh.prefab");
             
             #endif
         }
@@ -893,26 +893,26 @@ namespace IATK
             if (_tweenPosition < 1.0f)
             {
                 float v = Mathf.Pow(_tweenPosition, 3) * (_tweenPosition * (6f * _tweenPosition - 15f) + 10f);
-                this.SharedMaterial.SetFloat("_Tween", v);
+                if(this.SharedMaterial != null) this.SharedMaterial.SetFloat("_Tween", v);
                 isTweening = true;
             }
             else
             {
                 _tweenPosition = 1.0f;
-                this.SharedMaterial.SetFloat("_Tween", 1);
+                if (this.SharedMaterial != null) this.SharedMaterial.SetFloat("_Tween", 1);
             }
 
             _tweenSize += Time.deltaTime;
             if (_tweenSize < 1.0f)
             {
                 float v = Mathf.Pow(_tweenSize, 3) * (_tweenSize * (6f * _tweenSize - 15f) + 10f);
-                this.SharedMaterial.SetFloat("_TweenSize", v);
+                if (this.SharedMaterial != null) this.SharedMaterial.SetFloat("_TweenSize", v);
                 isTweening = true;
             }
             else
             {
                 _tweenSize = 1.0f;
-                this.SharedMaterial.SetFloat("_TweenSize", 1);
+                if (this.SharedMaterial != null) this.SharedMaterial.SetFloat("_TweenSize", 1);
             }
             return isTweening;
         }

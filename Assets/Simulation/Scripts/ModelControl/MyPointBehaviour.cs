@@ -37,6 +37,7 @@ namespace MDVM
 
         public bool HideOnHand = false;
         public bool HideOnSystemGesture = true;
+        public bool UnityEditorDebugMode = true;
 
         public Vector3 ControllerOffset = new Vector3();
         public Vector3 ControllerRotation = new Vector3();
@@ -87,6 +88,12 @@ namespace MDVM
         Vector3 CurrentHandPosition = new Vector3();
         Vector3 CurrentHandDirection = new Vector3();
 
+        bool isEditorDebug = false;
+
+        List<MyPointListener> listeners = new List<MyPointListener>();
+        Coroutine listenerUpdateCoroutine = null;
+        object listenerUpdateLock = new object();
+
         // Start is called before the first frame update
         void Start()
         {
@@ -98,6 +105,10 @@ namespace MDVM
             OnLongPressStart.AddListener(PointSoundOnLongPinch);
 
             PointMaterialChangeOnPress();
+
+            isEditorDebug = UnityEditorDebugMode && Application.isEditor;
+
+            listenerUpdateCoroutine = StartCoroutine(UpdatePointListenerList());
         }
 
         // Update is called once per frame
@@ -105,6 +116,42 @@ namespace MDVM
         {
             PointerPositionUpdate();
             PointEventCall();
+        }
+
+        IEnumerator UpdatePointListenerList()
+        {
+            while(true)
+            {
+                // Very expensive call here. Done in a coroutine only.
+                GameObject[] hoverables = GameObject.FindGameObjectsWithTag("PointHoverable");
+
+                List<MyPointListener> myPointListenerList = new List<MyPointListener>();
+
+                foreach(GameObject hoverable in hoverables)
+                {
+                    MyPointListener newListener = hoverable.GetComponent<MyPointListener>();
+                    if (newListener != null)
+                    {
+                        myPointListenerList.Add(newListener);
+                    }
+                }
+
+                // In the case that this executes in multiple threads.
+                lock (listenerUpdateLock)
+                {
+                    listeners.Clear();
+                    listeners.AddRange(myPointListenerList);
+                    // Debug.Log("Registered " + listeners.Count + " listener(s)");
+                }
+
+                // Wait a few seconds before doing again.
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            StopCoroutine(listenerUpdateCoroutine);
         }
 
         protected void PointerPositionUpdate()
@@ -217,8 +264,86 @@ namespace MDVM
                 transform.localRotation = RotationQuat;
             }
 
+            if(isEditorDebug)
+            {
+                // The mouse can aim the pointer.
+                Ray ourRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                transform.position = ourRay.origin;
+                transform.rotation = Quaternion.LookRotation(ourRay.direction, Vector3.up);
+            }
+
             CurrentHandPosition = transform.position;
             CurrentHandDirection = transform.forward;
+
+            lock(listenerUpdateLock)
+            {
+                PointHoverEventCall();
+            }
+        }
+
+        protected void PointHoverEventCall()
+        {
+            foreach(MyPointListener myListener in listeners)
+            {
+                Collider thatCollider = myListener.GetComponent<Collider>();
+
+                if(thatCollider != null)
+                {
+                    if(thatCollider == GetClosestHover())
+                    {
+                        if(!myListener.CheckHovering())
+                        {
+                            myListener.RegisterHovering(true);
+                            myListener.OnPointerHoverEnter(gameObject);
+                        }
+                    }
+                    else
+                    {
+                        if (myListener.CheckHovering())
+                        {
+                            myListener.RegisterHovering(false);
+                            myListener.OnPointerHoverExit(gameObject);
+                        }
+                    }
+                }
+            }
+        }
+
+        protected GameObject GetClosestHover()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward);
+
+            Collider closest = null;
+
+            foreach (RaycastHit hit in hits)
+            {
+                Collider collider = hit.collider;
+                MyActionMenuProvider colliderProvider = collider.GetComponent<MyActionMenuProvider>();
+                if (colliderProvider != null && colliderProvider.enabled)
+                {
+                    if (closest == null)
+                    {
+                        closest = collider;
+                    }
+                    else
+                    {
+                        // Position of our parent and not the reference.
+                        Vector3 ourPosition = transform.parent.position;
+                        if (
+                            Vector3.Distance(closest.transform.position, ourPosition) >=
+                            Vector3.Distance(collider.transform.position, ourPosition)
+                            )
+                        {
+                            closest = collider;
+                        }
+                    }
+                }
+            }
+
+            GameObject objToGrab = closest != null ? closest.gameObject : null;
+
+            return objToGrab;
         }
 
         protected void PointEventCall()
@@ -229,6 +354,8 @@ namespace MDVM
             bool eventConditions = MyHand.GetFingerIsPinching(HandButtonPinchMask);
 
             eventConditions |= OVRInput.Get(ControllerButtonPinchMask);
+
+            eventConditions |= (isEditorDebug && Input.GetMouseButton(0));
 
             float CurrentPressTime = Time.time;
 

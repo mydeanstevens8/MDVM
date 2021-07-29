@@ -70,6 +70,7 @@ namespace IATK
             bool isUndefined = dataSource == null || attributeid == "Undefined";
             int idx = Array.IndexOf(dataSource.Select(m => m.Identifier).ToArray(), attributeid);
 
+
             // get the normalized value
             float minValue = !isUndefined ? dataSource[attributeid].MetaData.minValue : 0.0f;
             float maxValue = !isUndefined ? dataSource[attributeid].MetaData.maxValue : 1.0f;

@@ -1,5 +1,6 @@
 namespace MDVM
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -7,7 +8,7 @@ namespace MDVM
 
     public class MyActionMenuProvider : MonoBehaviour
     {
-        Dictionary<string, UnityEvent> Actions;
+        public List<MyActionMenu.ActionMenuAction> actions;
 
         // Start is called before the first frame update
         void Start()
@@ -23,8 +24,11 @@ namespace MDVM
 
         public void LaunchActionMenu()
         {
+            Debug.Log("Launch the action menu here.");
             MyActionMenu actionMenu = GameObject.Find("ActionMenuCanvas").GetComponent<MyActionMenu>();
-            actionMenu.ActivateActionMenu();
+
+            actionMenu.AssignActions(actions);
+            actionMenu.ActivateActionMenu(transform.position);
         }
     }
 

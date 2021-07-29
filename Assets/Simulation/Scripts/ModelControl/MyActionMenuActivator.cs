@@ -24,8 +24,11 @@ namespace MDVM
         {
             GameObject objectToActivate = CanActivate();
 
-            MyActionMenuProvider provider = objectToActivate.GetComponent<MyActionMenuProvider>();
-            provider.LaunchActionMenu();
+            if(objectToActivate != null)
+            {
+                MyActionMenuProvider provider = objectToActivate.GetComponent<MyActionMenuProvider>();
+                provider.LaunchActionMenu();
+            }
 
             return objectToActivate;
         }
