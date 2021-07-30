@@ -74,8 +74,11 @@ public class ButtonDelay : MonoBehaviour
             Color newColor = new Color(buttonLastColor.r, buttonLastColor.g, buttonLastColor.b, animationFraction);
             buttonImage.color = newColor;
 
+            // Custom scaling.
+            float transformedAnimationFraction = -animationFraction * (Mathf.Pow(animationFraction, 2.0f) - 2);
+
             // Scale in
-            transform.localScale = new Vector3(animationFraction, animationFraction, animationFraction);
+            transform.localScale = new Vector3(transformedAnimationFraction, transformedAnimationFraction, transformedAnimationFraction);
         }
     }
 }

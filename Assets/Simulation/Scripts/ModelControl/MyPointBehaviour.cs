@@ -90,10 +90,6 @@ namespace MDVM
 
         bool isEditorDebug = false;
 
-        List<MyPointListener> listeners = new List<MyPointListener>();
-        Coroutine listenerUpdateCoroutine = null;
-        object listenerUpdateLock = new object();
-
         // Start is called before the first frame update
         void Start()
         {
@@ -107,8 +103,6 @@ namespace MDVM
             PointMaterialChangeOnPress();
 
             isEditorDebug = UnityEditorDebugMode && Application.isEditor;
-
-            listenerUpdateCoroutine = StartCoroutine(UpdatePointListenerList());
         }
 
         // Update is called once per frame
@@ -116,42 +110,6 @@ namespace MDVM
         {
             PointerPositionUpdate();
             PointEventCall();
-        }
-
-        IEnumerator UpdatePointListenerList()
-        {
-            while(true)
-            {
-                // Very expensive call here. Done in a coroutine only.
-                GameObject[] hoverables = GameObject.FindGameObjectsWithTag("PointHoverable");
-
-                List<MyPointListener> myPointListenerList = new List<MyPointListener>();
-
-                foreach(GameObject hoverable in hoverables)
-                {
-                    MyPointListener newListener = hoverable.GetComponent<MyPointListener>();
-                    if (newListener != null)
-                    {
-                        myPointListenerList.Add(newListener);
-                    }
-                }
-
-                // In the case that this executes in multiple threads.
-                lock (listenerUpdateLock)
-                {
-                    listeners.Clear();
-                    listeners.AddRange(myPointListenerList);
-                    // Debug.Log("Registered " + listeners.Count + " listener(s)");
-                }
-
-                // Wait a few seconds before doing again.
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            StopCoroutine(listenerUpdateCoroutine);
         }
 
         protected void PointerPositionUpdate()
@@ -275,42 +233,9 @@ namespace MDVM
 
             CurrentHandPosition = transform.position;
             CurrentHandDirection = transform.forward;
-
-            lock(listenerUpdateLock)
-            {
-                PointHoverEventCall();
-            }
         }
 
-        protected void PointHoverEventCall()
-        {
-            foreach(MyPointListener myListener in listeners)
-            {
-                Collider thatCollider = myListener.GetComponent<Collider>();
-
-                if(thatCollider != null)
-                {
-                    if(thatCollider == GetClosestHover())
-                    {
-                        if(!myListener.CheckHovering())
-                        {
-                            myListener.RegisterHovering(true);
-                            myListener.OnPointerHoverEnter(gameObject);
-                        }
-                    }
-                    else
-                    {
-                        if (myListener.CheckHovering())
-                        {
-                            myListener.RegisterHovering(false);
-                            myListener.OnPointerHoverExit(gameObject);
-                        }
-                    }
-                }
-            }
-        }
-
-        protected GameObject GetClosestHover()
+        public GameObject GetClosestObjectOnPointer()
         {
             RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward);
 
@@ -319,24 +244,20 @@ namespace MDVM
             foreach (RaycastHit hit in hits)
             {
                 Collider collider = hit.collider;
-                MyActionMenuProvider colliderProvider = collider.GetComponent<MyActionMenuProvider>();
-                if (colliderProvider != null && colliderProvider.enabled)
+
+                if (closest == null)
                 {
-                    if (closest == null)
+                    closest = collider;
+                }
+                else
+                {
+                    Vector3 ourPosition = transform.position;
+                    if (
+                        Vector3.Distance(closest.transform.position, ourPosition) >=
+                        Vector3.Distance(collider.transform.position, ourPosition)
+                        )
                     {
                         closest = collider;
-                    }
-                    else
-                    {
-                        // Position of our parent and not the reference.
-                        Vector3 ourPosition = transform.parent.position;
-                        if (
-                            Vector3.Distance(closest.transform.position, ourPosition) >=
-                            Vector3.Distance(collider.transform.position, ourPosition)
-                            )
-                        {
-                            closest = collider;
-                        }
                     }
                 }
             }

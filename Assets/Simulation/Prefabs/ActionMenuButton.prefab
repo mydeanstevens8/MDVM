@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button text
+  m_text: Button Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 3227516928
+  m_fontColor: {r: 0, g: 0, b: 0.3764706, a: 0.7529412}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 8495477278256571349}
   - component: {fileID: 5093128578856726869}
   - component: {fileID: 2795322954477180136}
+  - component: {fileID: 711048695187045450}
   m_Layer: 0
   m_Name: ActionMenuButton
   m_TagString: Untagged
@@ -173,7 +174,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 128}
+  m_SizeDelta: {x: 489, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5987472250441926556
 CanvasRenderer:
@@ -235,8 +236,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.93333334, g: 1, b: 0.93333334, a: 1}
+    m_PressedColor: {r: 0.6666667, g: 1, b: 0.6666667, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -271,7 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupDelay: 0
   popupSound: {fileID: 8300000, guid: 792b2077d548d434b9cdd508cf0ee198, type: 3}
-  clickSound: {fileID: 8300000, guid: 6dea3e9fda920f74c8f2c3c45c7797d7, type: 3}
+  popupAnimationTime: 0.05
 --- !u!82 &2795322954477180136
 AudioSource:
   m_ObjectHideFlags: 0
@@ -368,3 +369,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &711048695187045450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7632453006461250744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965b6ce4817cb504b85f958f93648bdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshComponent: {fileID: 2054915932683942892}
+  padding: 108
+  height: 128

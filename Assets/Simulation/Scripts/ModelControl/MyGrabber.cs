@@ -29,38 +29,22 @@ namespace MDVM
         // Return the game object currently being grabbed
         public GameObject CanGrab()
         {
-            RaycastHit[] hits = Physics.RaycastAll(ReferencePoint.transform.position, ReferencePoint.transform.forward);
+            GameObject closest = null;
+            MyPointBehaviour pointBehaviour = ReferencePoint.GetComponent<MyPointBehaviour>();
 
-            Collider closest = null;
-
-            foreach(RaycastHit hit in hits)
+            if (pointBehaviour != null)
             {
-                Collider collider = hit.collider;
-                MyGrabbable colliderGrabbable = collider.GetComponent<MyGrabbable>();
-                if (colliderGrabbable != null && colliderGrabbable.enabled)
-                {
-                    if (closest == null)
-                    {
-                        closest = collider;
-                    }
-                    else
-                    {
-                        // Position of ourselves and not the reference.
-                        Vector3 ourPosition = transform.position;
-                        if(
-                            Vector3.Distance(closest.transform.position, ourPosition) >= 
-                            Vector3.Distance(collider.transform.position, ourPosition)
-                            )
-                        {
-                            closest = collider;
-                        }
-                    }
-                }
+                closest = pointBehaviour.GetClosestObjectOnPointer();
             }
 
-            GameObject objToGrab = closest != null? closest.gameObject : null;
-
-            return objToGrab;
+            if (closest != null && closest.GetComponent<MyGrabbable>() != null)
+            {
+                return closest;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public GameObject BeginGrab()

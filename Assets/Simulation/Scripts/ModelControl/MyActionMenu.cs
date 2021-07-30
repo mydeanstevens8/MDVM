@@ -109,7 +109,7 @@ namespace MDVM {
             {
                 float radialDisplacementRaw = 2 * Mathf.PI * ((float)buttonPosition) / (dictLength);
 
-                float radialDisplacementScale = 0.4f + 0.1f * dictLength;
+                float radialDisplacementScale = (dictLength < 2)? 0 : (0.4f + 0.1f * dictLength);
 
                 // Start from the top and head clockwise. In Unity, positive is up and negative is down for y.
                 float horizontalRadialDisplacement = Mathf.Sin(radialDisplacementRaw) * radialButtonDisplacementX * radialDisplacementScale;
@@ -122,7 +122,8 @@ namespace MDVM {
                     0.5f - Mathf.Sign(horizontalRadialDisplacement) / 2;
 
 
-                float buttonAlignmentVert = 0.5f + 0.5f * (Mathf.Sin(radialDisplacementRaw) >= 0 ?
+                float buttonAlignmentVert = (dictLength < 2) ? 0.5f : 
+                        0.5f + 0.5f * (Mathf.Sin(radialDisplacementRaw) >= 0 ?
                         Mathf.Pow(Mathf.Tan((radialDisplacementRaw / 2) - (Mathf.PI / 4)), 3.0f) :
                         -Mathf.Pow(Mathf.Tan((radialDisplacementRaw / 2) + (Mathf.PI / 4)), 3.0f));
 
