@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace MDVM
 {
 
-    public class MyActionMenuProvider : MonoBehaviour, IPointerClickHandler
+    public class MyActionMenuProvider : MonoBehaviour
     {
         public List<MyActionMenu.ActionMenuAction> actions;
 
@@ -29,12 +29,6 @@ namespace MDVM
 
             actionMenu.AssignActions(actions);
             actionMenu.ActivateActionMenu(transform.position);
-        }
-
-        // New system: OnMouseUp
-        public void OnPointerClick(PointerEventData ed)
-        {
-            LaunchActionMenu();
         }
     }
 

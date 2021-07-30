@@ -11,10 +11,10 @@ namespace MDVM
     public class MyPointBehaviour : MonoBehaviour
     {
         [Serializable]
-        public class PointRaycastEvent : UnityEvent<PointRaycastData> { }
+        protected class PointRaycastEvent : UnityEvent<PointRaycastData> { }
 
         [Serializable]
-        public struct PointRaycastData
+        protected struct PointRaycastData
         {
             public PointRaycastData(Vector3 position, Vector3 direction, bool isLeftHand)
             {
@@ -54,13 +54,13 @@ namespace MDVM
 
         bool CurrentlyHandsMode = false;
 
-        public PointRaycastEvent OnPress = new PointRaycastEvent();
-        public PointRaycastEvent OnPressStart = new PointRaycastEvent();
-        public PointRaycastEvent OnPressEnd = new PointRaycastEvent();
+        PointRaycastEvent OnPress = new PointRaycastEvent();
+        PointRaycastEvent OnPressStart = new PointRaycastEvent();
+        PointRaycastEvent OnPressEnd = new PointRaycastEvent();
 
-        public PointRaycastEvent OnLongPressStart = new PointRaycastEvent();
-        public PointRaycastEvent OnLongPressEnd = new PointRaycastEvent();
-        public PointRaycastEvent OnLongPress = new PointRaycastEvent();
+        PointRaycastEvent OnLongPressStart = new PointRaycastEvent();
+        PointRaycastEvent OnLongPressEnd = new PointRaycastEvent();
+        PointRaycastEvent OnLongPress = new PointRaycastEvent();
 
         bool IsPressing = false;
         float PressTimeStart = 0.0f;
@@ -68,6 +68,7 @@ namespace MDVM
 
         public Color PressedColor = new Color(0, 1, 0, 0.75f);
         public Color UnpressedColor = new Color(1, 1, 1, 0.25f);
+        public Color InactiveColor = new Color(1, 1, 1, 0.0f);
 
         public OVRHand.HandFinger HandButtonPinchMask = OVRHand.HandFinger.Index;
         public OVRInput.Button ControllerButtonPinchMask = OVRInput.Button.Any;
@@ -95,6 +96,7 @@ namespace MDVM
         {
             OnPressStart.AddListener(PointMaterialChangeOnPress);
             OnPressStart.AddListener(PointSoundOnPinch);
+            OnPressStart.AddListener(SwitchPointersOnPress);
 
             OnPressEnd.AddListener(PointMaterialChangeOnPress);
 
@@ -222,49 +224,8 @@ namespace MDVM
                 transform.localRotation = RotationQuat;
             }
 
-            if(isEditorDebug)
-            {
-                // The mouse can aim the pointer.
-                Ray ourRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                transform.position = ourRay.origin;
-                transform.rotation = Quaternion.LookRotation(ourRay.direction, Vector3.up);
-            }
-
             CurrentHandPosition = transform.position;
             CurrentHandDirection = transform.forward;
-        }
-
-        public GameObject GetClosestObjectOnPointer()
-        {
-            RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward);
-
-            Collider closest = null;
-
-            foreach (RaycastHit hit in hits)
-            {
-                Collider collider = hit.collider;
-
-                if (closest == null)
-                {
-                    closest = collider;
-                }
-                else
-                {
-                    Vector3 ourPosition = transform.position;
-                    if (
-                        Vector3.Distance(closest.transform.position, ourPosition) >=
-                        Vector3.Distance(collider.transform.position, ourPosition)
-                        )
-                    {
-                        closest = collider;
-                    }
-                }
-            }
-
-            GameObject objToGrab = closest != null ? closest.gameObject : null;
-
-            return objToGrab;
         }
 
         protected void PointEventCall()
@@ -354,6 +315,14 @@ namespace MDVM
                     PointAudioSource.PlayOneShot(LongPinchSoundClip);
                 }
             }
+        }
+
+        protected void SwitchPointersOnPress(PointRaycastData param)
+        {
+            Debug.Log("Pointer switched on press. ", this);
+            UI.SwitchPointerControl switcher = UI.SwitchPointerControl.Get();
+
+            switcher.SwitchPointer(gameObject);
         }
     }
 

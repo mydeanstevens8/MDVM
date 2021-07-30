@@ -8,6 +8,8 @@ namespace MDVM
     {
         public GameObject ReferencePoint;
 
+        public bool LeftGrabber = false;
+
         public GameObject GrabbedObject { get; protected set; }
 
         public Vector3 GrabbedObjectDisplacement { get; protected set; }
@@ -17,7 +19,16 @@ namespace MDVM
         // Start is called before the first frame update
         void Start()
         {
+            MyGrabberCollection col = MyGrabberCollection.Get();
 
+            if(LeftGrabber)
+            {
+                col.RegisterLeft(this);
+            }
+            else
+            {
+                col.RegisterRight(this);
+            }
         }
 
         // Update is called once per frame
@@ -26,30 +37,8 @@ namespace MDVM
             GrabUpdate();
         }
 
-        // Return the game object currently being grabbed
-        public GameObject CanGrab()
+        public GameObject BeginGrab(GameObject objToGrab)
         {
-            GameObject closest = null;
-            MyPointBehaviour pointBehaviour = ReferencePoint.GetComponent<MyPointBehaviour>();
-
-            if (pointBehaviour != null)
-            {
-                closest = pointBehaviour.GetClosestObjectOnPointer();
-            }
-
-            if (closest != null && closest.GetComponent<MyGrabbable>() != null)
-            {
-                return closest;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public GameObject BeginGrab()
-        {
-            GameObject objToGrab = CanGrab();
             Debug.Log("Begin grab of " + (objToGrab? objToGrab.ToString() : "<nothing in particular>") + " ... ");
 
             if (objToGrab != null)
@@ -86,15 +75,6 @@ namespace MDVM
             }
         }
 
-        public void OnPointPinchStart(MyPointBehaviour.PointRaycastData data)
-        {
-            BeginGrab();
-        }
-
-        public void OnPointPinchEnd(MyPointBehaviour.PointRaycastData data)
-        {
-            EndGrab();
-        }
     }
 
 }

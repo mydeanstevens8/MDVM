@@ -164,7 +164,7 @@ namespace MDVM {
                 }
 
                 // Set a delay for that button based on the position
-                ButtonDelay delayAppearance = newButton.GetComponent<ButtonDelay>();
+                UI.ButtonDelay delayAppearance = newButton.GetComponent<UI.ButtonDelay>();
 
                 if(delayAppearance != null)
                 {

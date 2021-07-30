@@ -94,7 +94,7 @@ Shader "Custom/OutlineableShader"
             return i.color;
             }
             ENDCG
-    }
+        }
         // Standard forward render.
         UsePass "Standard/FORWARD" 
     }

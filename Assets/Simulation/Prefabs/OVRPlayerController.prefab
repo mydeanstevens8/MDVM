@@ -299,7 +299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MotionSpeed: 1
-  RotationSpeed: 120
+  RotationSpeed: 2
+  cameraRig: {fileID: 3493104077030586072}
 --- !u!1 &3493104077030586070
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,7 +517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4294967295
   sortOrder: 10
 --- !u!1 &3493104077030586074
 GameObject:
@@ -613,6 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReferencePoint: {fileID: 4874838913582030478}
+  LeftGrabber: 1
 --- !u!1 &3493104077030787432
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,6 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReferencePoint: {fileID: 4874838912583482200}
+  LeftGrabber: 0
 --- !u!1 &3493105117401472096
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +929,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3494611054155478576}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: LongPinchSoundClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: ControllerReference
       value: 
       objectReference: {fileID: 3493104077109474801}
@@ -955,11 +962,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnLongPressEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnLongPressStart.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1263,6 +1270,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3494611054150099831}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+      propertyPath: LongPinchSoundClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: ControllerReference
       value: 
       objectReference: {fileID: 3493104077724499901}
@@ -1284,11 +1295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnLongPressEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnLongPressStart.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8349418139061536869, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
       propertyPath: OnPress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
