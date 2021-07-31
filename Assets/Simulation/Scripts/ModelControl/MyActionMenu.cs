@@ -66,8 +66,13 @@ namespace MDVM {
         public float radialButtonDisplacementY = 350.0f;
         public float radialButtonDisplacementX = 250.0f;
 
+        public float buttonPopupDelayInterval = 0.025f;
+
+        [HideInInspector]
         public AudioClip activationSound = null;
+        [HideInInspector]
         public AudioClip deactivationSound = null;
+        [HideInInspector]
         public AudioClip completeActSound = null;
 
         private AudioSource myAudioSource = null;
@@ -168,7 +173,7 @@ namespace MDVM {
 
                 if(delayAppearance != null)
                 {
-                    delayAppearance.popupDelay = 0.025f + 0.025f * buttonPosition;
+                    delayAppearance.popupDelay = buttonPopupDelayInterval + buttonPopupDelayInterval * buttonPosition;
                 }
 
 
@@ -187,9 +192,14 @@ namespace MDVM {
             // Initially deactivate
             RawDeactivateActionMenu();
 
+            // Play sound
             if (activationSound != null && myAudioSource != null)
             {
                 myAudioSource.PlayOneShot(activationSound);
+            }
+            else
+            {
+                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
             }
 
             if (uiToDisplay != null)
@@ -252,6 +262,10 @@ namespace MDVM {
             {
                 myAudioSource.PlayOneShot(deactivationSound);
             }
+            else
+            {
+                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuDeactivate);
+            }
             RawDeactivateActionMenu();
         }
 
@@ -260,6 +274,10 @@ namespace MDVM {
             if (completeActSound != null && myAudioSource != null)
             {
                 myAudioSource.PlayOneShot(completeActSound);
+            }
+            else
+            {
+                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuComplete);
             }
             DeactivateActionMenu();
         }

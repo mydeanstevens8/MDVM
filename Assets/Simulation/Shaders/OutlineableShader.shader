@@ -1,4 +1,4 @@
-Shader "Custom/OutlineableShader"
+Shader "Outline/OutlineableShader"
 {
     Properties
     {

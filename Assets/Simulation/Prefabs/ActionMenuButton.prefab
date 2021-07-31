@@ -271,8 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupDelay: 0
-  popupSound: {fileID: 8300000, guid: 792b2077d548d434b9cdd508cf0ee198, type: 3}
-  popupAnimationTime: 0.05
+  popupSound: {fileID: 8300000, guid: cb4c22b27acc4d14da7d416053ff4a99, type: 3}
+  popupAnimationTime: 0.1
 --- !u!82 &2795322954477180136
 AudioSource:
   m_ObjectHideFlags: 0

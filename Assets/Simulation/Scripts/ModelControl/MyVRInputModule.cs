@@ -71,6 +71,16 @@ namespace MDVM
             return PointerEventData.FramePressState.NotChanged;
 
         }
+
+        /// <summary>
+        /// A copy from PointerInputModule but used for enter and exit events even with a locked cursor.
+        /// Process movement for the current frame with the given pointer event.
+        /// </summary>
+        protected override void ProcessMove(PointerEventData pointerEvent)
+        {
+            var targetGO = pointerEvent.pointerCurrentRaycast.gameObject;
+            HandlePointerExitAndEnter(pointerEvent, targetGO);
+        }
     }
 }
 
