@@ -26,7 +26,10 @@ namespace MDVM.UI
 
         public void Play(AudioClip clip)
         {
-            source.PlayOneShot(clip);
+            if (clip != null)
+            {
+                source.PlayOneShot(clip);
+            }
         }
 
         public void Play(AudioClip clip, float volume)

@@ -34,6 +34,12 @@ namespace MDVM.UI
             }
 
             inModule.rayTransform = pointerObject.transform;
+
+            MyVRInputModule myInMod = inModule as MyVRInputModule;
+            if (myInMod != null && pointerObject.GetComponent<MyPointBehaviour>() != null)
+            {
+                myInMod.leftHandMode = pointerObject.GetComponent<MyPointBehaviour>().LeftHand;
+            }
         }
 
         public GameObject GetCurrentPointer()
