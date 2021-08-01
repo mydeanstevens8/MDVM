@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224144707133732998}
-  - component: {fileID: 33785950503195566}
   - component: {fileID: 23798848205502428}
-  - component: {fileID: 114196145953419814}
   - component: {fileID: 114992823850600992}
   m_Layer: 0
   m_Name: Legend
@@ -39,14 +37,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.296, y: -0.116}
   m_SizeDelta: {x: 1, y: 0.25}
   m_Pivot: {x: 1, y: 0}
---- !u!33 &33785950503195566
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388938891552444}
-  m_Mesh: {fileID: 0}
 --- !u!23 &23798848205502428
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -88,27 +78,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &114196145953419814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388938891552444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d40088a6124c578ad6b428df586e2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_pivot: {x: 1, y: 0}
-  m_anchorPosition: 8
-  m_rect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 0.25
-  m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &114992823850600992
 MonoBehaviour:
   m_ObjectHideFlags: 0
