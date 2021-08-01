@@ -39,8 +39,6 @@ namespace MDVM
 
         public GameObject BeginGrab(GameObject objToGrab)
         {
-            Debug.Log("Begin grab of " + (objToGrab? objToGrab.ToString() : "<nothing in particular>") + " ... ");
-
             if (objToGrab != null)
             {
                 ForceGrab(objToGrab);
@@ -52,13 +50,25 @@ namespace MDVM
         protected void ForceGrab(GameObject myObject)
         {
             GrabbedObject = myObject;
+
             GrabbedObjectDisplacement = ReferencePoint.transform.InverseTransformPoint(GrabbedObject.transform.position);
-            GrabbedObjectRotation = GrabbedObject.transform.rotation * Quaternion.Inverse(ReferencePoint.transform.rotation);
+
+            GrabbedObjectRotation = Quaternion.Inverse(ReferencePoint.transform.rotation) * GrabbedObject.transform.rotation;
+
+            GrabbedObject.GetComponent<MyGrabbable>().GrabbableStart(
+                this, ReferencePoint.transform, GrabbedObjectDisplacement, GrabbedObjectRotation
+                );
         }
 
         public void EndGrab()
         {
-            Debug.Log("End grab");
+            // End grab may be called with a null object.
+            if(GrabbedObject != null)
+            {
+                GrabbedObject.GetComponent<MyGrabbable>().GrabbableEnd(
+                this, ReferencePoint.transform, GrabbedObjectDisplacement, GrabbedObjectRotation
+                );
+            }
 
             GrabbedObject = null;
             GrabbedObjectDisplacement = new Vector3();
@@ -69,9 +79,10 @@ namespace MDVM
         {
             if(GrabbedObject != null)
             {
-                // Apply rotation transforms here.
-                GrabbedObject.transform.position = ReferencePoint.transform.TransformPoint(GrabbedObjectDisplacement);
-                GrabbedObject.transform.rotation = GrabbedObjectRotation * ReferencePoint.transform.rotation;
+                // Call our delegate which will perform our grab update for us.
+                GrabbedObject.GetComponent<MyGrabbable>().GrabbableUpdate(
+                    this, ReferencePoint.transform, GrabbedObjectDisplacement, GrabbedObjectRotation
+                    );
             }
         }
 

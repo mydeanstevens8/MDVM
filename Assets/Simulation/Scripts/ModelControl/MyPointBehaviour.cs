@@ -319,7 +319,7 @@ namespace MDVM
 
         protected void SwitchPointersOnPress(PointRaycastData param)
         {
-            Debug.Log("Pointer switched on press. ", this);
+            // Debug.Log("Pointer switched on press. ", this);
             UI.SwitchPointerControl switcher = UI.SwitchPointerControl.Get();
 
             switcher.SwitchPointer(gameObject);

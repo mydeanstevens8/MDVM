@@ -46,14 +46,12 @@ namespace MDVM.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("Outline applied to object.", this);
             // Configure the material color
             instancedOutlineMaterial.SetColor("_OutlineColor", outlineColor);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log("Outline removed from object.", this);
             // Configure the material color
             instancedOutlineMaterial.SetColor("_OutlineColor", inactiveColor);
         }

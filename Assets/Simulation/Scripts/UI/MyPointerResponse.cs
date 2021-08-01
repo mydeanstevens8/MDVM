@@ -68,7 +68,7 @@ namespace MDVM.UI
         {
             isLongClicking = false;
             yield return new WaitForSecondsRealtime(LongClickDelay);
-            Debug.Log("Long clicking from pointer.", this);
+            // Debug.Log("Long clicking from pointer.", this);
             isLongClicking = true;
             OnLongClickBegin.Invoke();
 
