@@ -193,14 +193,7 @@ namespace MDVM {
             RawDeactivateActionMenu();
 
             // Play sound
-            if (activationSound != null && myAudioSource != null)
-            {
-                myAudioSource.PlayOneShot(activationSound);
-            }
-            else
-            {
-                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
-            }
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
 
             if (uiToDisplay != null)
             {
@@ -258,27 +251,13 @@ namespace MDVM {
         // Plays a sound on deactivation.
         public void DeactivateActionMenu()
         {
-            if(deactivationSound != null && myAudioSource != null)
-            {
-                myAudioSource.PlayOneShot(deactivationSound);
-            }
-            else
-            {
-                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuDeactivate);
-            }
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuDeactivate);
             RawDeactivateActionMenu();
         }
 
         public void CompleteActionMenu()
         {
-            if (completeActSound != null && myAudioSource != null)
-            {
-                myAudioSource.PlayOneShot(completeActSound);
-            }
-            else
-            {
-                UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuComplete);
-            }
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuComplete);
             DeactivateActionMenu();
         }
 

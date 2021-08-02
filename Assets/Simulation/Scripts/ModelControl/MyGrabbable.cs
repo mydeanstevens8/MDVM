@@ -94,6 +94,8 @@ namespace MDVM
         protected bool vRestrictionBlockedY = false;
         protected bool vRestrictionBlockedZ = false;
 
+        protected bool isBeingGrabbed = false;
+
         void Awake()
         {
             if(objectToApplyGrab == null)
@@ -106,6 +108,9 @@ namespace MDVM
         {
             initialPosition = objectToApplyGrab.transform.localPosition;
             initialRotation = objectToApplyGrab.transform.localRotation;
+
+            // Bound on startup
+            BoundGrabbedObjectPosition();
         }
 
         public void DoGrab()
@@ -120,6 +125,8 @@ namespace MDVM
 
         public virtual void GrabbableStart(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
         {
+            isBeingGrabbed = true;
+
             // Vector from us to the grabbed object. No need to worry about rotation settings.
             objectToApplyGrabRelativePosition = grabbingCenter.transform.InverseTransformVector(objectToApplyGrab.transform.position - transform.position);
         }
@@ -144,7 +151,7 @@ namespace MDVM
         }
         public virtual void GrabbableEnd(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
         {
-
+            isBeingGrabbed = false;
         }
 
         protected virtual void DoMove(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
@@ -181,10 +188,10 @@ namespace MDVM
             // Position bound at the initial starting position.
             Vector3 boundCenter = initialPosition;
 
-            // Add lock position info when using the restricted state.
-            if (lockPosition.lockX == GrabLockState.Restricted) boundCenter.x += (lockPosition.minX + lockPosition.maxX) / 2;
-            if (lockPosition.lockY == GrabLockState.Restricted) boundCenter.y += (lockPosition.minY + lockPosition.maxY) / 2;
-            if (lockPosition.lockZ == GrabLockState.Restricted) boundCenter.z += (lockPosition.minZ + lockPosition.maxZ) / 2;
+            // Set to lock position info when using the restricted state.
+            if (lockPosition.lockX == GrabLockState.Restricted) boundCenter.x = (lockPosition.minX + lockPosition.maxX) / 2;
+            if (lockPosition.lockY == GrabLockState.Restricted) boundCenter.y = (lockPosition.minY + lockPosition.maxY) / 2;
+            if (lockPosition.lockZ == GrabLockState.Restricted) boundCenter.z = (lockPosition.minZ + lockPosition.maxZ) / 2;
 
             // In the case of restricted axes, these size settings will apply.
             Vector3 boundSize = new Vector3(
@@ -256,6 +263,14 @@ namespace MDVM
             get
             {
                 return vRestrictionBlockedZ;
+            }
+        }
+
+        public bool BeingGrabbed
+        {
+            get
+            {
+                return isBeingGrabbed;
             }
         }
     }

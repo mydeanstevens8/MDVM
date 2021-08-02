@@ -291,6 +291,10 @@ namespace MDVM
         {
             MeshRenderer mr = GetComponentInChildren<MeshRenderer>();
             Color myColor = IsCurrentlyPressing ? PressedColor : UnpressedColor;
+#if UNITY_EDITOR
+            // Disable rendering in editor.
+            mr.enabled = false;
+#endif
             mr.material.color = myColor;
         }
 

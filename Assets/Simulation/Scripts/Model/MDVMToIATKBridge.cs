@@ -17,7 +17,7 @@ namespace MDVM.Model
 
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             InitializeObject();
         }
@@ -30,11 +30,6 @@ namespace MDVM.Model
                 RefreshMDVM();
                 refresh = false;
             }
-        }
-
-        private void OnEnable()
-        {
-            InitializeObject();
         }
 
         private void OnValidate()
@@ -74,6 +69,11 @@ namespace MDVM.Model
         {
             IATKVisualisation = GetComponentInChildren<Visualisation>();
 
+            if(IATKVisualisation == null)
+            {
+                Debug.LogWarning("No IATK Visualisation detected. ", this);
+            }
+
             UpdatePlotComponent();
         }
 
@@ -82,8 +82,15 @@ namespace MDVM.Model
             MDVMPlot oldPlot = GetComponent<MDVMPlot>();
             if (oldPlot != null)
             {
-                // Since we can run in the editor, we can't use Destroy.
-                DestroyImmediate(oldPlot);
+                if (Application.isPlaying)
+                {
+                    Destroy(oldPlot);
+                }
+                else
+                {
+                    // Editor does not support destroy when editing.
+                    DestroyImmediate(oldPlot);
+                }
             }
         }
 

@@ -822,16 +822,18 @@ namespace IATK
         // global list of all tweens callbacks
         static List<UpdateTweenDelegate> updateTweens = new List<UpdateTweenDelegate>();
 
+#if !UNITY_EDITOR
         private bool hasTweens = false;
+#endif
         
         private void Update()
         {
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
             if (hasTweens)
             {
                 UpdateTweens();
             }
-            #endif
+#endif
         }
 
         public void Tween(TweenType type)
@@ -861,27 +863,27 @@ namespace IATK
                     updateTweens.RemoveAt(i);
                 }
             }
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (updateTweens.Count() == 0)
             {
                 EditorApplication.update = null;
             }
-            #else
+#else
             if (updateTweens.Count() == 0)
             {
                 hasTweens = false;
             }
-            #endif
+#endif
         }
 
         void QueueTween()
         {
             updateTweens.Add(DoTheTween);
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             EditorApplication.update = UpdateTweens;
-            #else
+#else
             hasTweens = true;
-            #endif
+#endif
         }
 
         // returns false if complete, else true
