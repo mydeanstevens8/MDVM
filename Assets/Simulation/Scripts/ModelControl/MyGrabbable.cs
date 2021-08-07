@@ -88,6 +88,9 @@ namespace MDVM
         // Used for restricting the rotation of elements.
         protected Quaternion initialRotation = Quaternion.identity;
 
+        // There to help us rotate objects
+        protected Quaternion grabberInitialRotation = Quaternion.identity;
+
         // Used when moving outside the bounds set in restricted mode.
         // Does not apply in locked mode for a particular axis.
         protected bool vRestrictionBlockedX = false;
@@ -111,6 +114,7 @@ namespace MDVM
 
             // Bound on startup
             BoundGrabbedObjectPosition();
+            BoundGrabbedObjectRotation();
         }
 
         public void DoGrab()
@@ -129,6 +133,7 @@ namespace MDVM
 
             // Vector from us to the grabbed object. No need to worry about rotation settings.
             objectToApplyGrabRelativePosition = grabbingCenter.transform.InverseTransformVector(objectToApplyGrab.transform.position - transform.position);
+            grabberInitialRotation = grabbingCenter.rotation; // In world space
         }
 
         public virtual void GrabbableUpdate(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
@@ -164,22 +169,24 @@ namespace MDVM
 
         protected virtual void DoLookAtRotate(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
         {
-            Quaternion newRotation = grabbingCenter.transform.rotation * grabber.GrabbedObjectRotation;
+            Quaternion newRotation = grabbingCenter.rotation * grabber.GrabbedObjectRotation;
             objectToApplyGrab.transform.rotation = newRotation;
         }
 
         protected virtual void DoRotate(MyGrabber grabber, Transform grabbingCenter, Vector3 relativeDisplacement, Quaternion relativeRotation)
         {
-            // Calculate our initial displacement
-            Vector3 displacementFromInitial = 
-                grabbingCenter.transform.TransformPoint(relativeDisplacement) 
-                + grabbingCenter.transform.TransformVector(objectToApplyGrabRelativePosition);
+            Quaternion rotationDisplacement = Quaternion.Inverse(grabberInitialRotation) * (grabbingCenter.rotation);
+            rotationDisplacement.ToAngleAxis(out float rotationDisplacementAngle, out Vector3 rotationDisplacementAxis);
 
-            Vector3 sdfi = rotationSpeed * displacementFromInitial;
+            // Same as look at, but with a greater rotation speed.
+            Quaternion newRotation = 
+                grabberInitialRotation * 
+                Quaternion.AngleAxis(-rotationDisplacementAngle * rotationSpeed, rotationDisplacementAxis) * 
+                grabber.GrabbedObjectRotation;
 
-            Quaternion asRotation = Quaternion.Euler(-sdfi.y, sdfi.x, sdfi.z);
+            objectToApplyGrab.transform.rotation = newRotation;
 
-            objectToApplyGrab.transform.localRotation = asRotation;
+            BoundGrabbedObjectRotation();
         }
 
 
@@ -233,6 +240,44 @@ namespace MDVM
 
 
             objectToApplyGrab.transform.localPosition = correctedLocalPosition;
+        }
+
+
+        protected virtual void BoundGrabbedObjectRotation()
+        {
+            // Position bound at the initial starting position.
+            Vector3 boundCenter = initialRotation.eulerAngles;
+
+            // Set to lock position info when using the restricted state.
+            if (lockRotation.lockX == GrabLockState.Restricted) boundCenter.x = (lockRotation.minX + lockRotation.maxX) / 2;
+            if (lockRotation.lockY == GrabLockState.Restricted) boundCenter.y = (lockRotation.minY + lockRotation.maxY) / 2;
+            if (lockRotation.lockZ == GrabLockState.Restricted) boundCenter.z = (lockRotation.minZ + lockRotation.maxZ) / 2;
+
+            // In the case of restricted axes, these size settings will apply.
+            Vector3 boundSize = new Vector3(
+                lockRotation.maxX - lockRotation.minX,
+                lockRotation.maxY - lockRotation.minY,
+                lockRotation.maxZ - lockRotation.minZ
+                );
+
+            // Lock each axis to zero size if that axis is locked.
+            if (lockRotation.lockX == GrabLockState.Locked) boundSize.x = 0;
+            if (lockRotation.lockY == GrabLockState.Locked) boundSize.y = 0;
+            if (lockRotation.lockZ == GrabLockState.Locked) boundSize.z = 0;
+
+            // When free, set to infinity.
+            if (lockRotation.lockX == GrabLockState.Free) boundSize.x = Mathf.Infinity;
+            if (lockRotation.lockY == GrabLockState.Free) boundSize.y = Mathf.Infinity;
+            if (lockRotation.lockZ == GrabLockState.Free) boundSize.z = Mathf.Infinity;
+
+            Bounds b = new Bounds(boundCenter, boundSize);
+
+            Vector3 currentLocalRotation = objectToApplyGrab.transform.localRotation.eulerAngles;
+
+            // Restrict the object to inside the specified bounds.
+            Vector3 correctedLocalRotation = b.ClosestPoint(currentLocalRotation);
+
+            objectToApplyGrab.transform.localRotation = Quaternion.Euler(correctedLocalRotation);
         }
 
         public bool RestrictionBlocked 
