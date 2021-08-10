@@ -20,8 +20,8 @@ namespace MDVM {
         public class ButtonDelegateEvent : Button.ButtonClickedEvent
         {
             protected ActionMenuAction referenceEvent;
-
             protected MyActionMenu actionMenu;
+            public bool returnToParent;
 
             public ButtonDelegateEvent()
             {
@@ -32,6 +32,7 @@ namespace MDVM {
             {
                 this.referenceEvent = referenceEvent;
                 this.actionMenu = actionMenu;
+                returnToParent = false;
                 AddListener(EventCall);
             }
 
@@ -39,7 +40,12 @@ namespace MDVM {
             {
                 if(actionMenu != null)
                 {
-                    if(referenceEvent.subactions.Length > 0)
+                    if(returnToParent)
+                    {
+                        Vector3 activatePosition = actionMenu.transform.position;
+                        actionMenu.ReturnToParentMenu(activatePosition);
+                    }
+                    else if(referenceEvent.subactions.Length > 0)
                     {
                         Vector3 activatePosition = actionMenu.transform.position;
                         actionMenu.ActivateSubMenu(activatePosition, referenceEvent, new List<ActionMenuAction>(referenceEvent.subactions));
@@ -65,13 +71,13 @@ namespace MDVM {
 
         private List<ActionMenuAction> actionList = new List<ActionMenuAction>();
 
+        private List<ActionMenuAction> actionTraversalTree = new List<ActionMenuAction>();
+
         // Settings for the action menu
         public float radialButtonDisplacementY = 350.0f;
         public float radialButtonDisplacementX = 250.0f;
 
         public float buttonPopupDelayInterval = 0.025f;
-
-        private AudioSource myAudioSource = null;
 
         private bool m_isActive = false;
 
@@ -82,8 +88,6 @@ namespace MDVM {
         void Start()
         {
             myCanvas = GetComponent<Canvas>();
-            myAudioSource = GetComponent<AudioSource>();
-
             RawDeactivateActionMenu();
         }
 
@@ -111,7 +115,7 @@ namespace MDVM {
 
                 radialDisplacementScale = Mathf.Max(radialDisplacementScale, 0.5f);
 
-                string description = "<-  " + foundRoot.name;
+                string description = foundRoot.name;
 
                 GameObject newButton = Instantiate(actionMenuButtonTemplate, currentlyDisplaying.transform);
 
@@ -140,9 +144,26 @@ namespace MDVM {
 
                 if (buttonWidget != null)
                 {
-                    // ButtonDelegateEvent myEvent = new ButtonDelegateEvent(foundRoot, this);
-                    // buttonWidget.onClick = myEvent;
+                    ButtonDelegateEvent myEvent = new ButtonDelegateEvent(foundRoot, this);
+                    myEvent.returnToParent = true;
+                    buttonWidget.onClick = myEvent;
                 }
+
+                // Turn on the back button display if present.
+                UI.ButtonDelay delayAppearance = newButton.GetComponent<UI.ButtonDelay>();
+
+                if (delayAppearance != null)
+                {
+                    GameObject backButton = delayAppearance.backButtonDisplay;
+                    if(backButton != null)
+                    {
+                        backButton.SetActive(true);
+                    }
+
+                    delayAppearance.popupDelay = 0.000001f;
+                }
+
+
             }
 
             int buttonPosition = 0;
@@ -206,6 +227,16 @@ namespace MDVM {
                 if(delayAppearance != null)
                 {
                     delayAppearance.popupDelay = buttonPopupDelayInterval + buttonPopupDelayInterval * buttonPosition;
+
+                    // Display a forward button in case of subactions.
+                    if(entry.subactions.Length > 0)
+                    {
+                        GameObject forwardButton = delayAppearance.forwardButtonDisplay;
+                        if (forwardButton != null)
+                        {
+                            forwardButton.SetActive(true);
+                        }
+                    }
                 }
 
 
@@ -219,10 +250,60 @@ namespace MDVM {
             actionList = actions;
         }
 
+        public void ReturnToParentMenu(Vector3 worldPosition)
+        {
+            // Play sound
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuReturn);
+
+            // Pop two off our stack, if existent. The reason is because we add the
+            // action item when reactivating the submenu, and we want it to go away
+            // before adding again, after we remove our current root. Hence two.
+            // First pop gets removed entirely.
+            if (actionTraversalTree.Count > 0)
+            {
+                actionTraversalTree.RemoveAt(actionTraversalTree.Count - 1);
+            }
+
+            ActionMenuAction? parentRoot = null;
+            // Second pop gets put into the parent root.
+            if (actionTraversalTree.Count > 0)
+            {
+                int lastPos = actionTraversalTree.Count - 1;
+                parentRoot = actionTraversalTree[lastPos];
+                actionTraversalTree.RemoveAt(lastPos);
+            }
+
+            List<ActionMenuAction> actions = actionList;
+
+            // Get the list of actions above us
+            if(parentRoot != null)
+            {
+                actions = new List<ActionMenuAction>(parentRoot.Value.subactions);
+            }
+
+            // Activate our submenu again at the root.
+            RawActivateSubMenu(worldPosition, parentRoot, actions);
+        }
+
         public void ActivateSubMenu(Vector3 worldPosition, ActionMenuAction? root, List<ActionMenuAction> actionList)
+        {
+            // Play sound
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuBrowse);
+
+            RawActivateSubMenu(worldPosition, root, actionList);
+        }
+
+        public void RawActivateSubMenu(Vector3 worldPosition, ActionMenuAction? root, List<ActionMenuAction> actionList)
         {
             // Initially deactivate
             RawDeactivateActionMenu();
+
+            // Add to our traversal tracker if root exists
+            if(root != null)
+            {
+                ActionMenuAction foundRoot = (ActionMenuAction)root;
+                actionTraversalTree.Add(foundRoot);
+            }
 
             // Fills the currently displaying flag for us.
             GenerateActionMenu(root, actionList);
@@ -259,7 +340,10 @@ namespace MDVM {
             // Play sound
             UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
 
-            ActivateSubMenu(worldPosition, null, actionList);
+            // Clear action tree
+            actionTraversalTree.Clear();
+
+            RawActivateSubMenu(worldPosition, null, actionList);
         }
 
         void RotateActionMenuToTarget()

@@ -13,6 +13,8 @@ namespace MDVM.UI
         public AudioClip actionMenuActivate = null;
         public AudioClip actionMenuDeactivate = null;
         public AudioClip actionMenuComplete = null;
+        public AudioClip actionMenuBrowse = null;
+        public AudioClip actionMenuReturn = null;
 
         private static UISoundSystem instance = null;
         private AudioSource source = null;

@@ -16,6 +16,9 @@ namespace MDVM.UI
 
         public float popupAnimationTime = 0.05f;
 
+        public GameObject backButtonDisplay = null;
+        public GameObject forwardButtonDisplay = null;
+
         float timeAtStart = 0.0f;
         bool donePopup = false;
         bool completedPopupAnimation = false;
