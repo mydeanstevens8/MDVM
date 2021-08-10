@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515055671372268984}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.15, y: -0.15, z: -0.15}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
@@ -153,22 +153,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - name: Move
+  - name: Transform
     action:
       m_PersistentCalls:
         m_Calls: []
-  - name: Rotate
+    subactions:
+    - name: Move
+      action:
+        m_PersistentCalls:
+          m_Calls: []
+      subactions: []
+    - name: Rotate
+      action:
+        m_PersistentCalls:
+          m_Calls: []
+      subactions: []
+  - name: Metadata
     action:
       m_PersistentCalls:
         m_Calls: []
-  - name: Scale
-    action:
-      m_PersistentCalls:
-        m_Calls: []
+    subactions: []
   - name: Detail View
     action:
       m_PersistentCalls:
         m_Calls: []
+    subactions: []
 --- !u!114 &515055671372268989
 MonoBehaviour:
   m_ObjectHideFlags: 0

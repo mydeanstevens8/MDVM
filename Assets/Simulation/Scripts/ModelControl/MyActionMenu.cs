@@ -14,11 +14,12 @@ namespace MDVM {
         {
             public string name;
             public UnityEvent action;
+            public ActionMenuAction[] subactions;
         }
 
         public class ButtonDelegateEvent : Button.ButtonClickedEvent
         {
-            protected UnityEvent referenceEvent;
+            protected ActionMenuAction referenceEvent;
 
             protected MyActionMenu actionMenu;
 
@@ -27,7 +28,7 @@ namespace MDVM {
 
             }
 
-            public ButtonDelegateEvent(UnityEvent referenceEvent, MyActionMenu actionMenu)
+            public ButtonDelegateEvent(ActionMenuAction referenceEvent, MyActionMenu actionMenu)
             {
                 this.referenceEvent = referenceEvent;
                 this.actionMenu = actionMenu;
@@ -36,21 +37,23 @@ namespace MDVM {
 
             protected void EventCall()
             {
-                referenceEvent.Invoke();
-                
                 if(actionMenu != null)
                 {
-
-                    actionMenu.CompleteActionMenu();
+                    if(referenceEvent.subactions.Length > 0)
+                    {
+                        Vector3 activatePosition = actionMenu.transform.position;
+                        actionMenu.ActivateSubMenu(activatePosition, referenceEvent, new List<ActionMenuAction>(referenceEvent.subactions));
+                    }
+                    else
+                    {
+                        referenceEvent.action.Invoke();
+                        actionMenu.CompleteActionMenu();
+                    }
                 }
             }
         }
 
         Canvas myCanvas = null;
-
-        public GameObject debugImage = null;
-
-        public GameObject uiToDisplay = null;
 
         private GameObject currentlyDisplaying = null;
 
@@ -68,13 +71,6 @@ namespace MDVM {
 
         public float buttonPopupDelayInterval = 0.025f;
 
-        [HideInInspector]
-        public AudioClip activationSound = null;
-        [HideInInspector]
-        public AudioClip deactivationSound = null;
-        [HideInInspector]
-        public AudioClip completeActSound = null;
-
         private AudioSource myAudioSource = null;
 
         private bool m_isActive = false;
@@ -86,8 +82,6 @@ namespace MDVM {
         void Start()
         {
             myCanvas = GetComponent<Canvas>();
-            debugImage = GameObject.Find("CanvasDebugImage");
-
             myAudioSource = GetComponent<AudioSource>();
 
             RawDeactivateActionMenu();
@@ -102,19 +96,59 @@ namespace MDVM {
             }
         }
 
-        protected void GenerateActionMenu(List<ActionMenuAction> actionList)
+        protected void GenerateActionMenu(ActionMenuAction? root, List<ActionMenuAction> actionList)
         {
             currentlyDisplaying = Instantiate(actionMenuBaseTemplate, transform);
 
             // Based on the length of the dictionary of actions, calculate the radial displacement value
             int dictLength = actionList.Count;
 
+            float radialDisplacementScale = (dictLength < 2) ? 0 : (0.4f + 0.1f * dictLength);
+
+            if (root != null)
+            {
+                ActionMenuAction foundRoot = (ActionMenuAction)root;
+
+                radialDisplacementScale = Mathf.Max(radialDisplacementScale, 0.5f);
+
+                string description = "<-  " + foundRoot.name;
+
+                GameObject newButton = Instantiate(actionMenuButtonTemplate, currentlyDisplaying.transform);
+
+                // Null if it does not exist
+                RectTransform rectTrans = newButton.GetComponent<RectTransform>();
+
+                if (rectTrans != null)
+                {
+                    rectTrans.localPosition = new Vector3(0, 0, 0);
+                    rectTrans.localRotation = Quaternion.identity;
+                    rectTrans.localScale = Vector3.one;
+
+                    rectTrans.pivot = new Vector2(0.5f, 0.5f);
+                }
+
+                // Set the text element
+                TextMeshProUGUI textWidget = newButton.GetComponentInChildren<TextMeshProUGUI>();
+
+                if (textWidget != null)
+                {
+                    textWidget.text = description;
+                }
+
+                // Set the button element
+                Button buttonWidget = newButton.GetComponent<Button>();
+
+                if (buttonWidget != null)
+                {
+                    // ButtonDelegateEvent myEvent = new ButtonDelegateEvent(foundRoot, this);
+                    // buttonWidget.onClick = myEvent;
+                }
+            }
+
             int buttonPosition = 0;
             foreach(ActionMenuAction entry in actionList)
             {
-                float radialDisplacementRaw = 2 * Mathf.PI * ((float)buttonPosition) / (dictLength);
-
-                float radialDisplacementScale = (dictLength < 2)? 0 : (0.4f + 0.1f * dictLength);
+                float radialDisplacementRaw = 2 * Mathf.PI * ((float)buttonPosition) / dictLength;
 
                 // Start from the top and head clockwise. In Unity, positive is up and negative is down for y.
                 float horizontalRadialDisplacement = Mathf.Sin(radialDisplacementRaw) * radialButtonDisplacementX * radialDisplacementScale;
@@ -134,7 +168,6 @@ namespace MDVM {
 
 
                 string description = entry.name;
-                UnityEvent action = entry.action;
 
                 GameObject newButton = Instantiate(actionMenuButtonTemplate, currentlyDisplaying.transform);
 
@@ -163,8 +196,7 @@ namespace MDVM {
 
                 if(buttonWidget != null)
                 {
-                    ButtonDelegateEvent myEvent = new ButtonDelegateEvent(action, this);
-                    
+                    ButtonDelegateEvent myEvent = new ButtonDelegateEvent(entry, this);
                     buttonWidget.onClick = myEvent;
                 }
 
@@ -187,23 +219,13 @@ namespace MDVM {
             actionList = actions;
         }
 
-        public void ActivateActionMenu(Vector3 worldPosition)
+        public void ActivateSubMenu(Vector3 worldPosition, ActionMenuAction? root, List<ActionMenuAction> actionList)
         {
             // Initially deactivate
             RawDeactivateActionMenu();
 
-            // Play sound
-            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
-
-            if (uiToDisplay != null)
-            {
-                currentlyDisplaying = Instantiate(uiToDisplay, transform);
-            }
-            else
-            {
-                // Fills the currently displaying flag for us.
-                GenerateActionMenu(actionList);
-            }
+            // Fills the currently displaying flag for us.
+            GenerateActionMenu(root, actionList);
 
             if (currentlyDisplaying.transform is RectTransform)
             {
@@ -223,12 +245,6 @@ namespace MDVM {
             // Initial rotate to target. More rotates in the update function.
             RotateActionMenuToTarget();
 
-            // Action menu debug
-            if (debugImage != null)
-            {
-                debugImage.SetActive(true);
-            }
-
             // Deactivator
             if (deactivator != null)
             {
@@ -236,6 +252,14 @@ namespace MDVM {
             }
 
             m_isActive = true;
+        }
+
+        public void ActivateActionMenu(Vector3 worldPosition)
+        {
+            // Play sound
+            UI.UISoundSystem.PlayS(UI.UISoundSystem.Get().actionMenuActivate);
+
+            ActivateSubMenu(worldPosition, null, actionList);
         }
 
         void RotateActionMenuToTarget()
@@ -263,11 +287,6 @@ namespace MDVM {
 
         public void RawDeactivateActionMenu()
         {
-            if (debugImage != null)
-            {
-                debugImage.SetActive(false);
-            }
-
             if (currentlyDisplaying != null)
             {
                 Destroy(currentlyDisplaying);

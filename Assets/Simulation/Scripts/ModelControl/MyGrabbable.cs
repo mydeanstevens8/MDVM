@@ -275,7 +275,23 @@ namespace MDVM
             Vector3 currentLocalRotation = objectToApplyGrab.transform.localRotation.eulerAngles;
 
             // Restrict the object to inside the specified bounds.
-            Vector3 correctedLocalRotation = b.ClosestPoint(currentLocalRotation);
+            // Due to the nature of rotation, take and give 360 degrees to each angle and find the closest distance for each axis.
+
+            Vector3 clrM = b.ClosestPoint(currentLocalRotation - new Vector3(360, 360, 360));
+            Vector3 clrO = b.ClosestPoint(currentLocalRotation);
+            Vector3 clrP = b.ClosestPoint(currentLocalRotation + new Vector3(360, 360, 360));
+
+            Vector3 clrX = new Vector3(Mathf.Abs(clrM.x - currentLocalRotation.x), Mathf.Abs(clrO.x - currentLocalRotation.x), Mathf.Abs(clrP.x - currentLocalRotation.x));
+            Vector3 clrY = new Vector3(Mathf.Abs(clrM.y - currentLocalRotation.y), Mathf.Abs(clrO.y - currentLocalRotation.y), Mathf.Abs(clrP.y - currentLocalRotation.y));
+            Vector3 clrZ = new Vector3(Mathf.Abs(clrM.z - currentLocalRotation.z), Mathf.Abs(clrO.z - currentLocalRotation.z), Mathf.Abs(clrP.z - currentLocalRotation.z));
+
+            Vector3 correctedLocalRotation = new Vector3();
+
+            // Get the smallest possible difference and apply it to X from clrX. X represents M, Y represents O and Z represents P respectively
+            // Do the same for the others
+            correctedLocalRotation.x = (clrX.x < clrX.y && clrX.x < clrX.z) ? clrM.x : ((clrX.y < clrX.x && clrX.y < clrX.z) ? clrO.x : clrP.x);
+            correctedLocalRotation.y = (clrY.x < clrY.y && clrY.x < clrY.z) ? clrM.y : ((clrY.y < clrY.x && clrY.y < clrY.z) ? clrO.y : clrP.y);
+            correctedLocalRotation.z = (clrZ.x < clrZ.y && clrZ.x < clrZ.z) ? clrM.z : ((clrZ.y < clrZ.x && clrZ.y < clrZ.z) ? clrO.z : clrP.z);
 
             objectToApplyGrab.transform.localRotation = Quaternion.Euler(correctedLocalRotation);
         }
