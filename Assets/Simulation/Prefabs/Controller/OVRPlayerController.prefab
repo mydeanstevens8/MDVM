@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 198728399}
   - component: {fileID: 198728398}
   - component: {fileID: 198728401}
+  - component: {fileID: 6200621933801234724}
   m_Layer: 0
   m_Name: Up
   m_TagString: Untagged
@@ -114,6 +115,67 @@ MonoBehaviour:
   outlineWidth: 0.01
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   outlineColor: {r: 0.5019608, g: 1, b: 0.5019608, a: 0.5}
+--- !u!114 &6200621933801234724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198728396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef266c3b56e49c418bba86a8089fe2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPressDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1149417820100504575}
+        m_TargetAssemblyTypeName: MDVM.ElevatorControls, Assembly-CSharp
+        m_MethodName: ActivateElevatorUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPressUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1149417820100504575}
+        m_TargetAssemblyTypeName: MDVM.ElevatorControls, Assembly-CSharp
+        m_MethodName: DeactivateElevator
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLongClickBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClickEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoverEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  LongClickDelay: 0.3
 --- !u!1 &864912547
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +189,7 @@ GameObject:
   - component: {fileID: 864912550}
   - component: {fileID: 864912549}
   - component: {fileID: 864912552}
+  - component: {fileID: 8461034244807026144}
   m_Layer: 0
   m_Name: Down
   m_TagString: Untagged
@@ -228,6 +291,67 @@ MonoBehaviour:
   outlineWidth: 0.01
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   outlineColor: {r: 1, g: 0.5019608, b: 0.5019608, a: 0.5}
+--- !u!114 &8461034244807026144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864912547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef266c3b56e49c418bba86a8089fe2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPressDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1149417820100504575}
+        m_TargetAssemblyTypeName: MDVM.ElevatorControls, Assembly-CSharp
+        m_MethodName: ActivateElevatorDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPressUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1149417820100504575}
+        m_TargetAssemblyTypeName: MDVM.ElevatorControls, Assembly-CSharp
+        m_MethodName: DeactivateElevator
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLongClickBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClickEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoverEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  LongClickDelay: 0.3
 --- !u!1 &1000468071
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +523,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 440368776487581246}
+  - component: {fileID: 1149417820100504575}
   m_Layer: 0
   m_Name: ElevatorControls
   m_TagString: Untagged
@@ -421,6 +546,23 @@ Transform:
   m_Father: {fileID: 3493104077031074554}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149417820100504575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186316038069264621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ea4e1914319e5409ff0a1acf0e3923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 3493104077030586068}
+  elevateStrength: 0.25
+  elevatorTimeScale: 1
+  elevatorMinSpeed: 0.1
+  elevatorMaxSpeed: 10
 --- !u!1 &2885531419168468271
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +660,7 @@ CapsuleCollider:
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: -2, z: 0}
+  m_Center: {x: 0, y: -5, z: 0}
 --- !u!1 &3493104077030586064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,14 +1846,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
---- !u!1 &3493104077724499901 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 112276, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
-  m_PrefabInstance: {fileID: 3493104077724518697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3493104077724351433 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 488160, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
+  m_PrefabInstance: {fileID: 3493104077724518697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3493104077724499901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 112276, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
   m_PrefabInstance: {fileID: 3493104077724518697}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3493104077825209144
@@ -1895,14 +2037,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
---- !u!1 &4874838912583482200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8349418139061536864, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
-  m_PrefabInstance: {fileID: 3493104077825209144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4874838912583482201 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8349418139061536865, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
+  m_PrefabInstance: {fileID: 3493104077825209144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4874838912583482200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8349418139061536864, guid: b1044834260a19d4bb832ff1fd9c3928, type: 3}
   m_PrefabInstance: {fileID: 3493104077825209144}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3493104078300447641
@@ -2073,14 +2215,14 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 04b74dc3749dbc5408d8b4cdf8419e9e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
---- !u!4 &3492028952742653750 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
-  m_PrefabInstance: {fileID: 3493104078312117982}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3494611054155478576 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1870938896605422, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
+  m_PrefabInstance: {fileID: 3493104078312117982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3492028952742653750 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
   m_PrefabInstance: {fileID: 3493104078312117982}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3493104078569487217

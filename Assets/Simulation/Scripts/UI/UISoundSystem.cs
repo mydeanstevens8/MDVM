@@ -8,13 +8,20 @@ namespace MDVM.UI
     public class UISoundSystem : MonoBehaviour
     {
         public AudioClip pointerPress = null;
+
         public AudioClip grabbableGrabBegin = null;
         public AudioClip grabbableGrabEnd = null;
+
         public AudioClip actionMenuActivate = null;
         public AudioClip actionMenuDeactivate = null;
         public AudioClip actionMenuComplete = null;
         public AudioClip actionMenuBrowse = null;
         public AudioClip actionMenuReturn = null;
+
+        public AudioClip elevatorUp = null;
+        public AudioClip elevatorDown = null;
+        public AudioClip elevatorComplete = null;
+        public AudioClip elevatorBegin = null;
 
         private static UISoundSystem instance = null;
         private AudioSource source = null;
