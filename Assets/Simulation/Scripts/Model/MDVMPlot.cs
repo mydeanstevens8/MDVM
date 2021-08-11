@@ -98,6 +98,12 @@ namespace MDVM.Model
 
         public virtual bool HasAxis(AxisDirection dir)
         {
+            if(Bridge == null || VisualisationController == null)
+            {
+                // We do not know yet...
+                return false;
+            }
+
             return
                 (dir == AxisDirection.X && IsAxisDefined(VisualisationController.xDimension)) ||
                 (dir == AxisDirection.Y && IsAxisDefined(VisualisationController.yDimension)) ||
