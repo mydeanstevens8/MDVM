@@ -109,6 +109,13 @@ namespace MDVM
 
         private void Start()
         {
+            SetObjectToApplyGrab(objectToApplyGrab);
+        }
+
+        public void SetObjectToApplyGrab(GameObject toGrab)
+        {
+            objectToApplyGrab = toGrab;
+
             initialPosition = objectToApplyGrab.transform.localPosition;
             initialRotation = objectToApplyGrab.transform.localRotation;
 
@@ -294,6 +301,18 @@ namespace MDVM
             correctedLocalRotation.z = (clrZ.x < clrZ.y && clrZ.x < clrZ.z) ? clrM.z : ((clrZ.y < clrZ.x && clrZ.y < clrZ.z) ? clrO.z : clrP.z);
 
             objectToApplyGrab.transform.localRotation = Quaternion.Euler(correctedLocalRotation);
+        }
+
+        public void SetPositionThroughGrabbable(Vector3 newPosition)
+        {
+            objectToApplyGrab.transform.position = newPosition;
+            BoundGrabbedObjectPosition();
+        }
+
+        public void SetRotationThroughGrabbable(Quaternion newRotation)
+        {
+            objectToApplyGrab.transform.rotation = newRotation;
+            BoundGrabbedObjectRotation();
         }
 
         public bool RestrictionBlocked 

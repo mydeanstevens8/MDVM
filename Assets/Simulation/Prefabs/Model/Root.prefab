@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 515055671372268990}
   - component: {fileID: 515055671372268989}
   - component: {fileID: 515055671372268988}
+  - component: {fileID: 2077532163}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -153,21 +154,191 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - name: Transform
+  - name: Move tools
     action:
       m_PersistentCalls:
         m_Calls: []
     subactions:
-    - name: Move
+    - name: Translate tool
+      action:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2077532163}
+            m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+            m_MethodName: SetModeMove
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      subactions: []
+    - name: Rotate tool
+      action:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2077532163}
+            m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+            m_MethodName: SetModeRotate
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      subactions: []
+    - name: Reset tool
       action:
         m_PersistentCalls:
           m_Calls: []
-      subactions: []
-    - name: Rotate
-      action:
-        m_PersistentCalls:
-          m_Calls: []
-      subactions: []
+      subactions:
+      - name: Reset rotation
+        action:
+          m_PersistentCalls:
+            m_Calls: []
+        subactions:
+        - name: 0 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 0
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 45 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 45
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 90 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 90
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 135 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 135
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 180 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 180
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 225 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 225
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 270 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 270
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
+        - name: 315 Degrees
+          action:
+            m_PersistentCalls:
+              m_Calls:
+              - m_Target: {fileID: 2077532163}
+                m_TargetAssemblyTypeName: MDVM.Model.RootControl, Assembly-CSharp
+                m_MethodName: SetGrabbableRotation
+                m_Mode: 4
+                m_Arguments:
+                  m_ObjectArgument: {fileID: 0}
+                  m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                  m_IntArgument: 0
+                  m_FloatArgument: 315
+                  m_StringArgument: 
+                  m_BoolArgument: 0
+                m_CallState: 2
+          subactions: []
   - name: Metadata
     action:
       m_PersistentCalls:
@@ -204,13 +375,13 @@ MonoBehaviour:
     minZ: 0
     maxZ: 0
   lockRotation:
-    lockX: 0
+    lockX: 2
     minX: 0
     maxX: 0
     lockY: 0
     minY: 0
     maxY: 0
-    lockZ: 0
+    lockZ: 2
     minZ: 0
     maxZ: 0
 --- !u!135 &515055671372268988
@@ -226,3 +397,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2077532163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515055671372268984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05e74348b00a294dbcfbb4b53a9dafa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveMesh: {fileID: -4134345134901136397, guid: e289fe086a7cb8b42bee8c733f976c74, type: 3}
+  rotateMesh: {fileID: -3848779940433554205, guid: 91fdd9a7b1f02174cbe768a1a4fb9775, type: 3}
+  detailsMesh: {fileID: 0}
+  metadataMesh: {fileID: 0}

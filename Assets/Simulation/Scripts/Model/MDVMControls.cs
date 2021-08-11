@@ -36,7 +36,10 @@ namespace MDVM.Model
 
         public GameObject CreateControl(GameObject original)
         {
-            return Instantiate(original, transform);
+            GameObject newOb = Instantiate(original, transform);
+            newOb.name = "MDVMControl: " + newOb.name;
+
+            return newOb;
         }
     }
 }

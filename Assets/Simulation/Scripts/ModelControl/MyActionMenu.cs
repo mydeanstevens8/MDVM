@@ -12,8 +12,13 @@ namespace MDVM {
         [Serializable]
         public struct ActionMenuAction
         {
+            [SerializeField]
             public string name;
+
+            [SerializeField]
+
             public UnityEvent action;
+            [SerializeField]
             public ActionMenuAction[] subactions;
         }
 
@@ -113,7 +118,7 @@ namespace MDVM {
             {
                 ActionMenuAction foundRoot = (ActionMenuAction)root;
 
-                radialDisplacementScale = Mathf.Max(radialDisplacementScale, 0.5f);
+                radialDisplacementScale = Mathf.Max(radialDisplacementScale, 0.9f);
 
                 string description = foundRoot.name;
 

@@ -7,12 +7,14 @@ namespace MDVM.Model
     public class MDVMScatterPlot : MDVMPlot
     {
         public GameObject axisControllerPrefab = null;
+        public GameObject rootPrefab = null;
 
         public override void SetUpMDVMPlot()
         {
             base.SetUpMDVMPlot();
             controlsLayer.DestroyControls();
 
+            controlsLayer.CreateControl(rootPrefab);
             AddAxisControllers();
         }
 
