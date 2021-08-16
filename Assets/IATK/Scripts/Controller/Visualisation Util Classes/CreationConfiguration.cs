@@ -85,12 +85,12 @@ namespace IATK {
             VisualisationHeight = cf.VisualisationHeight;
             VisualisationDepth = cf.VisualisationDepth;
             
-            File.WriteAllText(serializedObjectPath, JsonUtility.ToJson(this));
+            IATKSerialiser.Write(serializedObjectPath, JsonUtility.ToJson(this));
         }
 
         public void DeSerialize(string serializedObjectPath, CreationConfiguration cf)
         {
-            SerializableCreationConfiguration scc = JsonUtility.FromJson<SerializableCreationConfiguration>(File.ReadAllText(serializedObjectPath));
+            SerializableCreationConfiguration scc = JsonUtility.FromJson<SerializableCreationConfiguration>(IATKSerialiser.Read(serializedObjectPath));
 
             cf.VisualisationType = (AbstractVisualisation.VisualisationTypes)System.Enum.Parse(typeof(AbstractVisualisation.VisualisationTypes), scc.VisualisationType);
 

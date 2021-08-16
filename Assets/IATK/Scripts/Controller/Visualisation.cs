@@ -364,11 +364,12 @@ namespace IATK
             }
 
             // load serialized view configuration from disk
-            if (File.Exists(ConfigurationFileName()))
+            if (IATKSerialiser.Exists(ConfigurationFileName()))
             {
                 if (theVisualizationObject.creationConfiguration == null) theVisualizationObject.creationConfiguration = new CreationConfiguration();
                 if (!dataSource.IsLoaded) dataSource.load();
 
+                // Check here if we can deserialize. Note that the tool can run on platforms which don't support files.
                 theVisualizationObject.creationConfiguration.Deserialize(ConfigurationFileName());
                 theVisualizationObject.creationConfiguration.disableWriting = true;
 
