@@ -16,6 +16,11 @@ namespace MDVM.Model
 
         private void Awake()
         {
+            ResetMDVMPlot();
+        }
+
+        public void ResetMDVMPlot()
+        {
             // Set our plot reference.
             SetMDVMPlot(GetComponentInParent<MDVMPlot>());
 

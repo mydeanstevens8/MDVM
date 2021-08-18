@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,23 @@ namespace MDVM.Model
             GameObject newOb = Instantiate(original, transform);
             newOb.name = "MDVMControl: " + newOb.name;
 
+            return newOb;
+        }
+
+        public GameObject CreateControlRaw(Type controlType)
+        {
+            GameObject newOb = new GameObject("MDVMControl: " + controlType.Name, controlType);
+            newOb.transform.parent = transform;
+
+            Component controlOb = newOb.GetComponent(controlType);
+
+            if(controlOb is MDVMControl)
+            {
+                MDVMControl controlObMDVM = (MDVMControl) controlOb;
+
+                controlObMDVM.ResetMDVMPlot();
+            }
+            
             return newOb;
         }
     }

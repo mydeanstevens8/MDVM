@@ -9,13 +9,13 @@ namespace MDVM.Model
         public GameObject axisControllerPrefab = null;
         public GameObject rootPrefab = null;
 
+        public GameObject dataViewPrefab = null;
+
         public override void SetUpMDVMPlot()
         {
             base.SetUpMDVMPlot();
             controlsLayer.DestroyControls();
-
-            controlsLayer.CreateControl(rootPrefab);
-            AddAxisControllers();
+            CreateScatterplotControls();
         }
 
         protected void AddAxisControllers()
@@ -50,5 +50,25 @@ namespace MDVM.Model
                 }
             }
         }
+
+        protected void CreateScatterplotControls()
+        {
+            // Root
+            controlsLayer.CreateControl(rootPrefab);
+
+            // Axis
+            AddAxisControllers();
+
+            // View layer
+            if (dataViewPrefab == null)
+            {
+                controlsLayer.CreateControlRaw(typeof(MDVMScatterplotDataLayer));
+            }
+            else
+            {
+                controlsLayer.CreateControl(dataViewPrefab);
+            }
+        }
+
     }
 }
