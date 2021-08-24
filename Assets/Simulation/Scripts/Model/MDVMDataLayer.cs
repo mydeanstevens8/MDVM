@@ -19,13 +19,13 @@ namespace MDVM.Model {
         List<MDVMView> viewObjects = new List<MDVMView>();
 
         // Start is called before the first frame update
-        void Start()
+        public override void OnControlStart()
         {
             Refresh();
         }
 
         // Update is called once per frame
-        void Update()
+        public override void OnControlUpdate()
         {
             UpdateDataLayer();
         }

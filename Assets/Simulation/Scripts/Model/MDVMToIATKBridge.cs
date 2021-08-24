@@ -17,8 +17,9 @@ namespace MDVM.Model
 
 
         // Start is called before the first frame update
-        void Awake()
+        void Start()
         {
+            Debug.Log("MDVM is initializing.", this);
             InitializeObject();
         }
 
@@ -27,6 +28,7 @@ namespace MDVM.Model
         {
             if(refresh)
             {
+                Debug.Log("MDVM has refreshed.", this);
                 RefreshMDVM();
                 refresh = false;
             }
@@ -115,7 +117,6 @@ namespace MDVM.Model
             {
                 newPlot.Bridge = this;
                 newPlot.MDVMStart();
-                newPlot.SetUpMDVMPlot();
             }
         }
 

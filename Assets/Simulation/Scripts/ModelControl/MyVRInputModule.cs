@@ -29,6 +29,13 @@ namespace MDVM
         [Tooltip("The pinch mask for the right hand to launch click events.")]
         public OVRHand.HandFinger rightHandPinchMask = OVRHand.HandFinger.Index;
 
+        [Tooltip("Whether to turn on hand detection or not.")]
+        public bool enableHandDetection = true;
+
+        [Header("Flags")]
+        [Tooltip("Whether to enable the input module for inputting.")]
+        public bool inputEnabled = true;
+
         protected bool wasHandPinching = false;
 
         // Overrides from OVR Input module to allow for hand presses.
@@ -38,6 +45,11 @@ namespace MDVM
         /// <returns></returns>
         override protected PointerEventData.FramePressState GetGazeButtonState()
         {
+            if(!inputEnabled)
+            {
+                return PointerEventData.FramePressState.NotChanged;
+            }
+
             var pressed = Input.GetKeyDown(gazeClickKey) || OVRInput.GetDown(joyPadClickButton);
             var released = Input.GetKeyUp(gazeClickKey) || OVRInput.GetUp(joyPadClickButton);
 
@@ -51,15 +63,19 @@ namespace MDVM
             bool extraUp = leftHandMode ? OVRInput.GetUp(leftControllerMask) : OVRInput.GetUp(rightControllerMask);
 
             // Hand detection
-            bool leftHandPinching = leftHand ? leftHand.GetFingerIsPinching(leftHandPinchMask) : false;
-            bool rightHandPinching = rightHand ? rightHand.GetFingerIsPinching(rightHandPinchMask) : false;
+            if(enableHandDetection)
+            {
+                bool leftHandPinching = leftHand ? leftHand.GetFingerIsPinching(leftHandPinchMask) : false;
+                bool rightHandPinching = rightHand ? rightHand.GetFingerIsPinching(rightHandPinchMask) : false;
 
-            bool isHandPinching = leftHandMode ? leftHandPinching : rightHandPinching;
+                bool isHandPinching = leftHandMode ? leftHandPinching : rightHandPinching;
 
-            pressed |= extraDown | (isHandPinching && (!wasHandPinching));
-            released |= extraUp | (wasHandPinching && (!isHandPinching));
+                pressed |= extraDown | (isHandPinching && (!wasHandPinching));
+                released |= extraUp | (wasHandPinching && (!isHandPinching));
 
-            wasHandPinching = isHandPinching;
+                wasHandPinching = isHandPinching;
+            }
+
             // End hand detection and extra controller buttons
 
             if (pressed && released)
@@ -78,6 +94,11 @@ namespace MDVM
         /// </summary>
         protected override void ProcessMove(PointerEventData pointerEvent)
         {
+            if (!inputEnabled)
+            {
+                return;
+            }
+
             var targetGO = pointerEvent.pointerCurrentRaycast.gameObject;
             HandlePointerExitAndEnter(pointerEvent, targetGO);
         }

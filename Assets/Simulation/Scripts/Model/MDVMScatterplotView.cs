@@ -9,6 +9,8 @@ namespace MDVM.Model
     {
         protected View viewReference = null;
 
+        protected long uniqueCreationIDStart = 0;
+
         public override void ClearViewLayer(MDVMDataLayer layer)
         {
 
@@ -23,7 +25,10 @@ namespace MDVM.Model
 
         public override void UpdateViewLayer(MDVMDataLayer layer)
         {
-            
+            if(Application.isPlaying)
+            {
+                RefillPoints(layer);
+            }
         }
 
         protected void RefillPoints(MDVMDataLayer layer)
@@ -45,7 +50,7 @@ namespace MDVM.Model
             }
 
             // Grab the vertices from the view and add them
-            Vector3[] allVerts = viewReference.BigMesh.getBigMeshVertices();
+            Vector3[] allVerts = viewReference.GetPositions();
 
             Vector3 graphScale = Vector3.one;
 
@@ -68,6 +73,14 @@ namespace MDVM.Model
                     // Set points
                     newPoint.transform.localPosition = new Vector3(vert.x * graphScale.x, vert.y * graphScale.y, vert.z * graphScale.z);
                     newPoint.transform.localRotation = Quaternion.identity;
+
+                    DataPoint pointData = newPoint.GetComponent<DataPoint>();
+
+                    if(pointData)
+                    {
+                        pointData.dataPointReference = vert;
+                        pointData.uniqueCreationID = uniqueCreationIDStart++;
+                    }
 
                 }
             }

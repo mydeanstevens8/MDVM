@@ -46,6 +46,11 @@ namespace MDVM.Model
         internal void MDVMStart()
         {
             controlsLayer = GetComponentInChildren<MDVMControls>();
+            controlsLayer.DestroyControls();
+
+            SetUpMDVMPlot();
+
+            controlsLayer.StartControls();
         }
 
         private void OnDestroy()
@@ -68,6 +73,13 @@ namespace MDVM.Model
         public virtual void SetUpMDVMPlot()
         {
 
+        }
+
+        public void MDVMUpdate()
+        {
+            // Expedite the property change
+            VisualisationController.updateProperties();
+            controlsLayer.UpdateControls();
         }
 
 
@@ -93,7 +105,7 @@ namespace MDVM.Model
             VisualisationController.depth = dimensions.z;
 
             // Expedite the property change
-            VisualisationController.updateProperties();
+            MDVMUpdate();
         }
 
         public virtual bool HasAxis(AxisDirection dir)
@@ -157,7 +169,7 @@ namespace MDVM.Model
                 filter.maxFilter = newFilterValues.y;
 
                 // Expedite the property change
-                VisualisationController.updateProperties();
+                MDVMUpdate();
             }
             else
             {
@@ -194,7 +206,7 @@ namespace MDVM.Model
                 filter.maxScale = newFilterValues.y;
 
                 // Expedite the property change
-                VisualisationController.updateProperties();
+                MDVMUpdate();
             }
             else
             {

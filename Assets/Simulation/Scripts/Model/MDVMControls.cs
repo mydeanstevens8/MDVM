@@ -7,8 +7,12 @@ namespace MDVM.Model
 {
     public class MDVMControls : MonoBehaviour
     {
+        protected List<MDVMControl> controls = new List<MDVMControl>();
+
         public void DestroyControls()
         {
+            DestroyControlsEventCall();
+
             List<GameObject> objectsToDestroy = new List<GameObject>();
             // This strange undocumented feature allows us to loop over all children
             foreach (Transform child in transform)
@@ -33,12 +37,21 @@ namespace MDVM.Model
                     DestroyImmediate(toDestroy);
                 }
             }
+
+            controls.Clear();
         }
 
         public GameObject CreateControl(GameObject original)
         {
             GameObject newOb = Instantiate(original, transform);
             newOb.name = "MDVMControl: " + newOb.name;
+
+            MDVMControl refControl = newOb.GetComponent<MDVMControl>();
+
+            if(refControl)
+            {
+                controls.Add(refControl);
+            }
 
             return newOb;
         }
@@ -55,9 +68,42 @@ namespace MDVM.Model
                 MDVMControl controlObMDVM = (MDVMControl) controlOb;
 
                 controlObMDVM.ResetMDVMPlot();
+                controls.Add(controlObMDVM);
             }
             
             return newOb;
+        }
+
+        public MDVMControl[] Controls
+        {
+            get
+            {
+                return controls.ToArray();
+            }
+        }
+
+        internal void StartControls()
+        {
+            foreach (MDVMControl control in Controls)
+            {
+                control.OnControlStart();
+            }
+        }
+
+        internal void UpdateControls()
+        {
+            foreach (MDVMControl control in Controls)
+            {
+                control.OnControlUpdate();
+            }
+        }
+
+        internal void DestroyControlsEventCall()
+        {
+            foreach (MDVMControl control in Controls)
+            {
+                control.OnControlDestroy();
+            }
         }
     }
 }

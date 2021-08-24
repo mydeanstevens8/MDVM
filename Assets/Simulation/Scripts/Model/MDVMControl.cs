@@ -29,6 +29,20 @@ namespace MDVM.Model
                 Debug.LogWarning("Warning: No MDVM plot reference found.", this);
             }
         }
+
+        public virtual void OnControlStart()
+        {
+
+        }
+
+        public virtual void OnControlUpdate()
+        {
+
+        }
+        public virtual void OnControlDestroy()
+        {
+
+        }
     }
 }
 

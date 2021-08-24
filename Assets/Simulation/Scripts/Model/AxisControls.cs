@@ -30,13 +30,14 @@ namespace MDVM.Model
         private bool HasStarted = false;
 
         // Start is called before the first frame update
-        void Start()
+        public override void OnControlStart()
         {
             HasStarted = true;
             Refresh();
         }
 
         // Update is called once per frame
+        // Don't call this on the control provided functions as this is necessary for updating the actual graph.
         void Update()
         {
             if(plotReference != null)

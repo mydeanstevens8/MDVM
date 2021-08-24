@@ -14,7 +14,6 @@ namespace MDVM.Model
         public override void SetUpMDVMPlot()
         {
             base.SetUpMDVMPlot();
-            controlsLayer.DestroyControls();
             CreateScatterplotControls();
         }
 
@@ -28,7 +27,6 @@ namespace MDVM.Model
                 if(axisXControls != null)
                 {
                     axisXControls.direction = AxisDirection.X;
-                    axisXControls.Refresh();
                 }
 
                 GameObject axisY = controlsLayer.CreateControl(axisControllerPrefab);
@@ -37,7 +35,6 @@ namespace MDVM.Model
                 if (axisYControls != null)
                 {
                     axisYControls.direction = AxisDirection.Y;
-                    axisYControls.Refresh();
                 }
 
                 GameObject axisZ = controlsLayer.CreateControl(axisControllerPrefab);
@@ -46,7 +43,6 @@ namespace MDVM.Model
                 if (axisZControls != null)
                 {
                     axisZControls.direction = AxisDirection.Z;
-                    axisZControls.Refresh();
                 }
             }
         }

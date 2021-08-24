@@ -38,6 +38,10 @@ namespace MDVM
         public bool HideOnHand = false;
         public bool HideOnSystemGesture = true;
         public bool UnityEditorDebugMode = true;
+        public bool PointerEnabled = true;
+        public bool HideInGestureMode = true;
+
+        protected bool isPointerEnabledHere = true;
 
         public Vector3 ControllerOffset = new Vector3();
         public Vector3 ControllerRotation = new Vector3();
@@ -107,9 +111,40 @@ namespace MDVM
             isEditorDebug = UnityEditorDebugMode && Application.isEditor;
         }
 
+        protected void CheckEnableFlags()
+        {
+            OVRHand MyHand = HandReference != null ? HandReference.GetComponent<OVRHand>() : null;
+
+            if (!PointerEnabled)
+            {
+                isPointerEnabledHere = false;
+            }
+            else if(CurrentlyHandsMode && HideOnHand)
+            {
+                isPointerEnabledHere = false;
+            }
+            else if(CurrentlyHandsMode && HideOnSystemGesture && MyHand.IsSystemGestureInProgress)
+            {
+                isPointerEnabledHere = false;
+            }
+            else
+            {
+                Gesture.GestureMode mode = Gesture.GestureMode.Instance;
+                if (HideInGestureMode && mode != null && !mode.IsSelectMode())
+                {
+                    isPointerEnabledHere = false;
+                }
+                else
+                {
+                    isPointerEnabledHere = true;
+                }
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
+            CheckEnableFlags();
             PointerPositionUpdate();
             PointEventCall();
         }
@@ -124,27 +159,15 @@ namespace MDVM
 
             MeshRenderer mr = GetComponentInChildren<MeshRenderer>();
 
-            if (HideOnHand)
+            if (mr != null)
             {
-                if (mr != null)
+                if(Application.isEditor)
                 {
-                    // Disable when hands are on, enable when hands are not on.
-                    mr.enabled = !CurrentlyHandsMode;
+                    mr.enabled = false;
                 }
-            }
-            else if (HideOnSystemGesture)
-            {
-                if (mr != null && CurrentlyHandsMode)
+                else
                 {
-                    // Disable on a system gesture.
-                    mr.enabled = !MyHand.IsSystemGestureInProgress;
-                }
-            }
-            else
-            {
-                if (mr != null)
-                {
-                    mr.enabled = true;
+                    mr.enabled = isPointerEnabledHere;
                 }
             }
 
@@ -239,6 +262,12 @@ namespace MDVM
 
             eventConditions |= (isEditorDebug && Input.GetMouseButton(0));
 
+            // Disable events if we are not enabled.
+            if(!isPointerEnabledHere)
+            {
+                eventConditions = false;
+            }
+
             float CurrentPressTime = Time.time;
 
             bool LongPressing = IsPressing && (CurrentPressTime - PressTimeStart >= LongPressTime);
@@ -291,10 +320,6 @@ namespace MDVM
         {
             MeshRenderer mr = GetComponentInChildren<MeshRenderer>();
             Color myColor = IsCurrentlyPressing ? PressedColor : UnpressedColor;
-#if UNITY_EDITOR
-            // Disable rendering in editor.
-            mr.enabled = false;
-#endif
             mr.material.color = myColor;
         }
 
