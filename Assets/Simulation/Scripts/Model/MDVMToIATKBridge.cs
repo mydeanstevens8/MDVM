@@ -10,6 +10,8 @@ namespace MDVM.Model
     [DisallowMultipleComponent]
     public class MDVMToIATKBridge : MonoBehaviour
     {
+        public string uid = "MDVM1";
+
         public bool refresh = false;
         protected Visualisation IATKVisualisation = null;
 
@@ -29,8 +31,8 @@ namespace MDVM.Model
             if(refresh)
             {
                 Debug.Log("MDVM has refreshed.", this);
-                RefreshMDVM();
                 refresh = false;
+                RefreshMDVM();
             }
         }
 
@@ -73,7 +75,31 @@ namespace MDVM.Model
 
             if(IATKVisualisation == null)
             {
-                Debug.LogWarning("No IATK Visualisation detected. ", this);
+                Debug.LogError("No IATK Visualisation detected in a child. ", this);
+                return;
+            }
+
+            IATKVisualisation.uid = uid;
+
+            // Ensure that the data is loaded
+            DataSource dataSource = IATKVisualisation.dataSource;
+
+            if(!dataSource.IsLoaded)
+            {
+                Debug.Log("Loading a data source since data is not loaded.", this);
+                dataSource.load();
+            }
+
+            if(IATKVisualisation.theVisualizationObject == null)
+            {
+                Debug.Log("Creating a visualisation from the visualiser.", this);
+                // Create the visualisation if it does not exist.
+                IATKVisualisation.CreateVisualisation(IATKVisualisation.visualisationType);
+                IATKVisualisation.updateProperties();
+            }
+            else
+            {
+                Debug.Log("Recreating the visualisation from the visualiser.", this);
             }
 
             UpdatePlotComponent();

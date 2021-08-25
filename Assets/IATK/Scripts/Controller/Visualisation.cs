@@ -321,6 +321,8 @@ namespace IATK
 
         void RuntimeEditorLoadAndSaveConfiguration()
         {
+            Debug.Log("Loading configuration from files...");
+
             // get the pre existing views in the hierarchy
             View[] views = GetComponentsInChildren<View>();
 
@@ -485,10 +487,18 @@ namespace IATK
             }
         }
 
-        private string ConfigurationFileName()
+        internal string ConfigurationFileName()
         {
-            string PathName = Application.streamingAssetsPath + Path.DirectorySeparatorChar + theVisualizationObject.serializedObjectPath;
-            return PathName + Path.DirectorySeparatorChar + uid + ".json";
+            if (IATKSerialiser.FileMode)
+            {
+                string PathName = Application.streamingAssetsPath + Path.DirectorySeparatorChar + theVisualizationObject.serializedObjectPath;
+                return PathName + Path.DirectorySeparatorChar + uid + ".json";
+            }
+            else
+            {
+                // Save in the scene serialiser
+                return uid + ".stream.json";
+            }
         }
 
         //<summary>

@@ -32,6 +32,7 @@ namespace IATK
                 }
             }
 
+            Debug.Log("Path '" + path + "' not found when checking for existence.");
             return false;
         }
 
@@ -45,6 +46,7 @@ namespace IATK
                 }
             }
 
+            Debug.LogWarning("Path '" + path + "' not found!");
             return null;
         }
 

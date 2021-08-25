@@ -161,10 +161,17 @@ namespace IATK
         public void SerializeViewConfiguration(CreationConfiguration creationConfiguration)
         {
             string path = ConfigurationFileName();
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
+
+            // If we are out of a file, let us just create the stuff in the Scene Serialiser, which will
+            // handle the file names.
+            if(IATKSerialiser.FileMode)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
             }
+            
 
             // Debug.Log("Status of creation configuration before serialization: " + (creationConfiguration != null));
             // Debug.Log("Config file name: " + ConfigurationFileName());
@@ -174,8 +181,7 @@ namespace IATK
 
         private string ConfigurationFileName()
         {
-            string PathName = Application.streamingAssetsPath + Path.DirectorySeparatorChar + serializedObjectPath;
-            return PathName + Path.DirectorySeparatorChar + visualisationReference.uid + ".json";
+            return visualisationReference.ConfigurationFileName();
         }
 
         /// <summary>
