@@ -4,7 +4,7 @@ using UnityEngine;
 
 using TMPro;
 
-namespace MDVM 
+namespace MDVM.Test 
 {
     public class MDVMDebugInfo : MonoBehaviour
     {

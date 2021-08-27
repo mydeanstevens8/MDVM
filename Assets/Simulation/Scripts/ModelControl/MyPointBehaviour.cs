@@ -127,6 +127,10 @@ namespace MDVM
             {
                 isPointerEnabledHere = false;
             }
+            else if (CurrentlyHandsMode && !MyHand.IsPointerPoseValid)
+            {
+                isPointerEnabledHere = false;
+            }
             else
             {
                 Gesture.GestureMode mode = Gesture.GestureMode.Instance;
@@ -230,7 +234,10 @@ namespace MDVM
                 GameObject CameraCentre = HandEyeAnchor != null ? HandEyeAnchor : GameObject.Find("CenterEyeAnchor");
                 Vector3 CameraPosition = CameraCentre.transform.position;
 
-                Vector3 MidwayPosition = (ThumbEnd.Transform.position + IndexStart.Transform.position) / 2;
+                Vector3 MidwayPosition = (
+                    ThumbEnd.Transform.position + IndexStart.Transform.position + IndexMiddle.Transform.position + 
+                    IndexEnd.Transform.position + ThumbMiddle.Transform.position + ThumbStart.Transform.position
+                    ) / 6;
                 Vector3 MidwayVector = MidwayPosition - CameraPosition;
 
                 ExtraPosition = MidwayPosition;
@@ -238,8 +245,18 @@ namespace MDVM
                 ExtraRotationQuat = Quaternion.LookRotation(MidwayVector, Vector3.up).normalized;
                 ExtraRotationQuat *= Quaternion.Euler(HandRotationOffset);
 
-                transform.position = ExtraPosition;
-                transform.rotation = ExtraRotationQuat;
+                if (MyHand.IsPointerPoseValid)
+                {
+                    Transform pointerPose = MyHand.PointerPose;
+
+                    transform.position = ExtraPosition;
+                    transform.rotation = pointerPose.rotation;
+                }
+                else
+                {
+                    transform.position = Vector3.zero;
+                    transform.rotation = Quaternion.identity;
+                }
             }
             else
             {

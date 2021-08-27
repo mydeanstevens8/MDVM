@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0.3764706, a: 1}
+  m_Color: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3227516928
-  m_fontColor: {r: 0, g: 0, b: 0.3764706, a: 0.7529412}
+    rgba: 3236884206
+  m_fontColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 0.7529412}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -427,8 +427,8 @@ MonoBehaviour:
   child: {fileID: 0}
   backButtonDisplay: {fileID: 4948724459871304058}
   forwardButtonDisplay: {fileID: 2194588741260118248}
-  passiveTextColor: {r: 0, g: 0, b: 0.3764706, a: 1}
-  activeTextColor: {r: 0.26666668, g: 0.53333336, b: 0.8, a: 1}
+  passiveTextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+  activeTextColor: {r: 0.53333336, g: 0.73333335, b: 1, a: 1}
 --- !u!82 &2795322954477180136
 AudioSource:
   m_ObjectHideFlags: 0
