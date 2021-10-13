@@ -28,6 +28,15 @@ using UnityEngine;
 
 namespace MDVM.Gesture
 {
+    // So that the data can be properly serialized by Unity
+    [System.Serializable]
+    public struct BoneCollection
+    {
+        public OVRSkeleton.BoneId id;
+        public Vector3 position;
+        public float weight;
+    }
+
     [System.Serializable]
     public struct HandData
     {
@@ -35,9 +44,6 @@ namespace MDVM.Gesture
 
         public OVRHand.TrackingConfidence Confidence;
         public OVRSkeleton.SkeletonType SkeletonType;
-        public Dictionary<OVRSkeleton.BoneId, Vector3> bonePositions;
-
-        // For gesture calculation.
-        public Dictionary<OVRSkeleton.BoneId, float> boneWeights;
+        public List<BoneCollection> bones;
     }
 }

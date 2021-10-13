@@ -32,6 +32,22 @@ namespace MDVM.Gesture
 {
     class GestureDataSerializer
     {
+        public static GestureDataSerializer Instance
+        {
+            get;
+            private set;
+        }
+
+        static GestureDataSerializer()
+        {
+            Instance = new GestureDataSerializer();
+        }
+
+        private GestureDataSerializer()
+        {
+
+        }
+
         public string GestureStorageDirectory()
         {
             string localPath = "GestureData";

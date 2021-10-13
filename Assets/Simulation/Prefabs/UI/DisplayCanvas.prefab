@@ -630,7 +630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenHide: {fileID: 7706238082051497229}
   canvasObject: {fileID: 7706238081322971713}
-  guiTitle: {fileID: 0}
+  guiTitle: {fileID: 7706238082555407287}
   modalWarningImage: {fileID: 7706238081036896746}
   nonModalColor: {r: 1, g: 1, b: 1, a: 1}
   modalWarningColor: {r: 0, g: 0.5019608, b: 1, a: 1}

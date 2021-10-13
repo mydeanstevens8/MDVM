@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - name: Move tools
+  - name: Transformation tools
     action:
       m_PersistentCalls:
         m_Calls: []
@@ -339,12 +339,7 @@ MonoBehaviour:
                   m_BoolArgument: 0
                 m_CallState: 2
           subactions: []
-  - name: Metadata
-    action:
-      m_PersistentCalls:
-        m_Calls: []
-    subactions: []
-  - name: Detail View
+  - name: Open metadata window
     action:
       m_PersistentCalls:
         m_Calls: []

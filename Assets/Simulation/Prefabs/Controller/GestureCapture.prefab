@@ -1,0 +1,263 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8249934922158507855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8249934922158507856}
+  - component: {fileID: 8249934922158507859}
+  - component: {fileID: 8249934922158507858}
+  - component: {fileID: 8249934922158507853}
+  - component: {fileID: 8249934922158507852}
+  - component: {fileID: 8249934922158507862}
+  - component: {fileID: 8249934922158507857}
+  - component: {fileID: 3004164379632832953}
+  - component: {fileID: 91547880147774619}
+  - component: {fileID: 8365649418505832588}
+  m_Layer: 0
+  m_Name: GestureCapture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8249934922158507856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: -2, y: 1, z: -2}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
+--- !u!33 &8249934922158507859
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Mesh: {fileID: -8218348813922407384, guid: e9a7021233707274b97c3823b48cfdb5, type: 3}
+--- !u!23 &8249934922158507858
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e319c849bd1027a4f8700a7a282899b1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &8249934922158507853
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8249934922158507852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef266c3b56e49c418bba86a8089fe2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPressDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPressUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClickBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClickEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLongClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHoverEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  LongClickDelay: 0.3
+--- !u!114 &8249934922158507862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc0bfa986b12c64c8cff3cc11737253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rendererToInject: {fileID: 8249934922158507858}
+  outlineMaterial: {fileID: 2100000, guid: 60d05f050be2bde47905539131a98e22, type: 2}
+  outlineWidth: 0.01
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
+  outlineColor: {r: 1, g: 1, b: 1, a: 0.5}
+--- !u!114 &8249934922158507857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b08b3ccef4b9c4e86f1e3f73e31bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Enter gesture capture mode
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 91547880147774619}
+          m_TargetAssemblyTypeName: MDVM.Gesture.GestureCaptureUI, Assembly-CSharp
+          m_MethodName: ToggleGestureCaptureModeUI
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    subactions: []
+  - name: Show stored gestures
+    action:
+      m_PersistentCalls:
+        m_Calls: []
+    subactions: []
+--- !u!114 &3004164379632832953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941fb46b2d5160b43976f76fca421883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 1
+  rotationSpeed: 1
+  objectToApplyGrab: {fileID: 0}
+  lockPosition:
+    lockX: 0
+    minX: 0
+    maxX: 0
+    lockY: 0
+    minY: 0
+    maxY: 0
+    lockZ: 0
+    minZ: 0
+    maxZ: 0
+  lockRotation:
+    lockX: 0
+    minX: 0
+    maxX: 0
+    lockY: 0
+    minY: 0
+    maxY: 0
+    lockZ: 0
+    minZ: 0
+    maxZ: 0
+--- !u!114 &91547880147774619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b9f3a3d2078a742a9ef523c692d24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftHand: {fileID: 0}
+  RightHand: {fileID: 0}
+  dataGather: {fileID: 8365649418505832588}
+  gestureCaptureSelectionMaterial: {fileID: 2100000, guid: e319c849bd1027a4f8700a7a282899b1, type: 2}
+  gestureCaptureModeActivatedColor: {r: 0, g: 1, b: 0, a: 1}
+  gestureCaptureModeDectivatedColor: {r: 1, g: 1, b: 1, a: 1}
+  gestureCaptureFingerPinchCode: 2
+  gestureCaptureDebugHotkey: 109
+  gestureCaptured: {fileID: 0}
+--- !u!114 &8365649418505832588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249934922158507855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3ad7737b9ea514989d292943fc7f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handL: {fileID: 0}
+  handR: {fileID: 0}
+  matchThreshold: 0.95

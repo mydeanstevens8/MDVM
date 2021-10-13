@@ -23,7 +23,9 @@ guarantees automatically given to you under the Competition and Consumer Act
 2010 (Commonwealth) and the Australian Consumer Law.
  * * */
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MDVM.Gesture
@@ -34,6 +36,8 @@ namespace MDVM.Gesture
         public OVRHand handR = null;
 
         public float matchThreshold = 0.95f;
+
+        public float matchSpecificity = 0.025f;
 
         // Start is called before the first frame update
         void Start()
@@ -61,6 +65,8 @@ namespace MDVM.Gesture
             HandData myData = new HandData();
 
             myData.Name = System.Guid.NewGuid().ToString();
+            // Allocate
+            myData.bones = new List<BoneCollection>();
 
             myData.Confidence = hand.HandConfidence;
 
@@ -69,6 +75,30 @@ namespace MDVM.Gesture
 
             myData.SkeletonType = skeleton.GetSkeletonType();
 
+            if(skeleton.Bones.Count == 0)
+            {
+                throw new InvalidOperationException("Hand has no skeleton bones probably because you are not in hand mode.");
+            }
+
+            // Fix. Suggested by Maxime Cordeil.
+
+            // Grab the local transform of the hand component.
+            Transform rootTransform = hand.transform;
+
+            // Transform every bone in the hand and assign parameters.
+
+            foreach(OVRBone bone in skeleton.Bones)
+            {
+                BoneCollection bc = new BoneCollection();
+                bc.id = bone.Id;
+                bc.position = rootTransform.InverseTransformPoint(bone.Transform.position) / handScale;
+                bc.weight = 1;
+
+                myData.bones.Add(bc);
+            }
+
+            // Old code
+            /*
             // Calculate the starting vectors we need for extrapolation.
             OVRBone handStart = skeleton.Bones[(int) OVRPlugin.BoneId.Hand_Start];
             OVRBone handMidStart = skeleton.Bones[(int) OVRPlugin.BoneId.Hand_Middle1];
@@ -97,14 +127,19 @@ namespace MDVM.Gesture
 
             foreach (OVRBone bone in skeleton.Bones)
             {
-                OVRSkeleton.BoneId boneID = bone.Id;
-
                 Vector3 bonePos = bone.Transform.position;
 
                 Vector3 normalizedBonePos = localCoords.MultiplyVector(bonePos);
 
-                myData.bonePositions.Add(boneID, normalizedBonePos);
+                // Create the bone object
+                BoneCollection bc = new BoneCollection();
+                bc.id = bone.Id;
+                bc.position = normalizedBonePos;
+                bc.weight = 1;
+
+                myData.bones.Add(bc);
             }
+            */
 
             return myData;
         }
@@ -122,25 +157,33 @@ namespace MDVM.Gesture
 
             float dividend = 0;
 
-            var refPositions = reference.bonePositions;
-            var cmpPositions = compare.bonePositions;
+            List<BoneCollection> refPositions = reference.bones;
+            List<BoneCollection> cmpPositions = compare.bones;
 
-            foreach(var entry in refPositions)
+            foreach(BoneCollection entry in refPositions)
             {
-                // Compare the weights of the bones that exist in the other hand
-                if(cmpPositions.ContainsKey(entry.Key))
+                // Find the other bone collection in our list
+                BoneCollection? otherEntry1 = null;
+
+                foreach(BoneCollection entrySample in cmpPositions)
                 {
-                    Vector3 boneRefPos = entry.Value;
-                    Vector3 boneCmpPos = cmpPositions[entry.Key];
-
-                    float localWeight = 1.0f;
-
-                    if(reference.boneWeights.ContainsKey(entry.Key))
+                    if (entry.id == entrySample.id)
                     {
-                        localWeight = reference.boneWeights[entry.Key];
+                        otherEntry1 = entrySample;
+                        break;
                     }
+                }
 
-                    float localSimilarity = localWeight * (Vector3.Dot(boneRefPos, boneCmpPos) + 1) / 2;
+                // Compare the weights of the bones that exist in the other hand
+                if (otherEntry1 != null)
+                {
+                    BoneCollection otherEntry = (BoneCollection) otherEntry1;
+                    Vector3 boneRefPos = entry.position;
+                    Vector3 boneCmpPos = otherEntry.position;
+
+                    float localWeight = entry.weight;
+
+                    float localSimilarity = localWeight * (Math.Min(1, matchSpecificity / Vector3.Distance(boneRefPos, boneCmpPos)));
 
                     matchConfidence += localSimilarity;
                     dividend += localWeight;

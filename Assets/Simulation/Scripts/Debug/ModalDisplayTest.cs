@@ -61,6 +61,7 @@ namespace MDVM.Test
             tmPro.alignment = TextAlignmentOptions.Center;
 
             ModalDisplay.Instance.ShowModal(sublayer, "Test Window", true);
+            Destroy(sublayer);
         }
     }
 }
