@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System.IO;
+using System;
 
 namespace MDVM.Gesture
 {
@@ -92,11 +93,9 @@ namespace MDVM.Gesture
                 if(path != null)
                     jsonText = File.ReadAllText(path);
             }
-            catch(FileNotFoundException)
+            catch(Exception)
             {
-            }
-            catch (DirectoryNotFoundException)
-            {
+                // Any exception, then read direct gesture.
             }
 
             HandData data = JsonUtility.FromJson<HandData>(jsonText);

@@ -149,13 +149,15 @@ namespace MDVM.Gesture
 
                     TextMeshProUGUI tmPro = sublayer.AddComponent<TextMeshProUGUI>();
 
-                    tmPro.text = GestureDataSerializer.Instance.GetJSONRepresentation(handData);
+                    tmPro.text = "Gesture data captured.";
                     tmPro.color = Color.black;
                     tmPro.fontSize = 36;
                     tmPro.alignment = TextAlignmentOptions.TopLeft;
 
                     ModalDisplay.Instance.ShowModal(sublayer, "Hand Data Captured", false);
                     Destroy(sublayer);
+
+                    GestureMode.Instance.MyMode = GestureMode.Mode.Select;
                 }
                 catch (Exception e)
                 {

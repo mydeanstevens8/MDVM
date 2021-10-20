@@ -31,9 +31,6 @@ namespace MDVM.Gesture
         bool LPActivated = false;
         bool RPActivated = false;
 
-        Coroutine LSelectCoroutine = null;
-        Coroutine RSelectCoroutine = null;
-
         bool LSelectCoroutineFinished = true;
         bool RSelectCoroutineFinished = true;
 
@@ -46,12 +43,16 @@ namespace MDVM.Gesture
             {
                 pointerPrefabInstanceL = Instantiate(pointerPrefabL, transform);
                 LPCollider = GetComponentInChildren<Collider>();
+
+                pointerPrefabInstanceL.SetActive(false);
             }
 
             if (pointerPrefabR)
             {
                 pointerPrefabInstanceR = Instantiate(pointerPrefabR, transform);
                 RPCollider = GetComponentInChildren<Collider>();
+
+                pointerPrefabInstanceR.SetActive(false);
             }
         }
 
@@ -78,7 +79,7 @@ namespace MDVM.Gesture
                     if(LSelectCoroutineFinished)
                     {
                         LSelectCoroutineFinished = false;
-                        LSelectCoroutine = StartCoroutine(SelectionCoroutine(LeftHand, LPHovering, pointerPrefabInstanceL, LPCollider, LPActivated));
+                        StartCoroutine(SelectionCoroutine(LeftHand, LPHovering, pointerPrefabInstanceL, LPCollider, LPActivated));
                     }
                 }
             }
@@ -104,7 +105,7 @@ namespace MDVM.Gesture
                     if(RSelectCoroutineFinished)
                     {
                         RSelectCoroutineFinished = false;
-                        RSelectCoroutine = StartCoroutine(SelectionCoroutine(RightHand, RPHovering, pointerPrefabInstanceR, RPCollider, RPActivated));
+                        StartCoroutine(SelectionCoroutine(RightHand, RPHovering, pointerPrefabInstanceR, RPCollider, RPActivated));
                     }
                 }
             }
